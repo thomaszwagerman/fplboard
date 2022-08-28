@@ -11,7 +11,12 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 coverage](https://codecov.io/gh/thomaszwagerman/fplboard/branch/main/graph/badge.svg)](https://app.codecov.io/gh/thomaszwagerman/fplboard?branch=main)
 <!-- badges: end -->
 
-The goal of fplboard is to …
+The goal of fplboard is to create a dashboard to easily extract useful
+information from the FPL api.
+
+This dashboard is built on top of
+[fplscrapR](https://github.com/wiscostret/fplscrapR), but also has its
+own native functions.
 
 ## Installation
 
@@ -19,40 +24,42 @@ You can install the development version of fplboard like so:
 
 ``` r
 # FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+remotes::install_github("thomaszwagerman/fplboard")
+
+library(fplboard)
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows a function that return an expected
+points (EP) table for a given miniweek.
+
+Under the hood it relies on `fplscrapR`’s `get_league_entries()` and
+`get_player_info()` functions.
+
+Let’s have a look at FPL Focal’s mini league top 10 for EP in gameweek
+1:
 
 ``` r
 library(fplboard)
+library(knitr)
 ## basic example code
+
+fpl_focal <- get_ep_for_league(league_number = 486, gameweek = 1)
+#> Joining, by = "entry"
+#> Joining, by = "element"
+kable(fpl_focal[1:10,])
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+| entry_name         | expected_points_gw |
+|:-------------------|-------------------:|
+| CA ElAntilope      |               82.7 |
+| Hotel? Thiago.     |               82.2 |
+| 22                 |               81.5 |
+| FYewFc             |               81.2 |
+| SmithRoweYourBoat  |               81.2 |
+| 八百六十八包夜     |               78.5 |
+| Adem_Ouis_Dz       |               78.1 |
+| Groß & Petit Piton |               77.9 |
+| Miami’s McMayhem   |               77.9 |
+| Núnez\>Haaland     |               77.9 |

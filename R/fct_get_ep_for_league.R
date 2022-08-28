@@ -6,10 +6,11 @@
 #' @param league_number the minileague number you want a table of
 #' @param gameweek the gameweek for expected point
 #'
+#' @export
+#'
 #' @examples
 #' # Getting the expected point for my league in GW1
 #' get_ep_for_league(570437, 1)
-#'
 #'
 get_ep_for_league <- function(league_number, gameweek) {
   # Obtaining league information to get everyone's picks for that gw

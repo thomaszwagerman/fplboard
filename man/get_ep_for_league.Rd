@@ -19,5 +19,4 @@ in a given gameweek.
 # Getting the expected point for my league in GW1
 get_ep_for_league(570437, 1)
 
-
 }
