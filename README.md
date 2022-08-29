@@ -11,6 +11,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 coverage](https://codecov.io/gh/thomaszwagerman/fplboard/branch/main/graph/badge.svg)](https://app.codecov.io/gh/thomaszwagerman/fplboard?branch=main)
 <!-- badges: end -->
 
+# {fplboard} <img src="https://raw.githubusercontent.com/thomaszwagerman/fplboard/main/inst/www/favicon.png" align="right" width="120"/>
+
 The goal of fplboard is to create a dashboard to easily extract useful
 information from the FPL api.
 
@@ -23,7 +25,6 @@ own native functions.
 You can install the development version of fplboard like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
 remotes::install_github("thomaszwagerman/fplboard")
 
 library(fplboard)
@@ -40,16 +41,8 @@ Under the hood it relies on `fplscrapR`’s `get_league_entries()` and
 Let’s have a look at FPL Focal’s mini league top 10 for EP in gameweek
 1:
 
-``` r
-library(fplboard)
-library(knitr)
-## basic example code
-
-fpl_focal <- get_ep_for_league(league_number = 486, gameweek = 1)
-#> Joining, by = "entry"
-#> Joining, by = "element"
-kable(fpl_focal[1:10,])
-```
+    #> Joining, by = "entry"
+    #> Joining, by = "element"
 
 | entry_name         | expected_points_gw |
 |:-------------------|-------------------:|
