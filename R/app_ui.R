@@ -10,7 +10,8 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      h1("fplboard")
+      h1("fplboard"),
+      mod_ep_table_ui("ep_table_1")
     )
   )
 }
