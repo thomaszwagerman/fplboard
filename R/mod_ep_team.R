@@ -1,19 +1,19 @@
-#' The ep_table UI Function
+#' ep_team UI Function
 #'
-#' @description Shiny module leveraging `get_ep_for_league()`
+#' @description A shiny Module.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_ep_table_ui <- function(id) {
+mod_ep_team_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
 
-    textInput(ns("league_number"),
-              "Please enter your mini-league number."),
+    textInput(ns("team_number"),
+              "Please enter your team number."),
 
     selectInput(ns("gameweek_number"),
                 "For which gameweek?",
@@ -27,14 +27,14 @@ mod_ep_table_ui <- function(id) {
   )
 }
 
-#' The ep_table Server Functions
+#' ep_team Server Functions
 #'
 #' @noRd
-mod_ep_table_server <- function(id) {
+mod_ep_team_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     data <- reactive(
-      get_ep_for_league(
-        input$league_number,
+      get_ep_for_entrant(
+        input$team_number,
         input$gameweek_number
       )
     )

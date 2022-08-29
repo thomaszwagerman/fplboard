@@ -13,6 +13,11 @@ app_ui <- function(request) {
       h1("fplboard"),
       navlistPanel(
         id = "tabset",
+        # My team info
+        "My Team Info",
+        tabPanel("panel_team",
+                 mod_ep_team_ui("ep_team_1")
+        ),
         # Mini league panel
         "Mini League Info",
         tabPanel("panel_league",

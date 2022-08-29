@@ -7,5 +7,6 @@
 app_server <- function(input, output, session) {
 
   mod_ep_table_server("ep_table_1")
+  mod_ep_team_server("ep_team_1")
 
 }
