@@ -22,9 +22,9 @@ mod_ep_team_ui <- function(id) {
     actionButton(ns("confirm_selection"),
                  "Confirm"),
 
-    tableOutput(ns("ep_table"))
+    tableOutput(ns("ep_table")),
 
-  )
+    tableOutput(ns("not_owned_table")))
 }
 
 #' ep_team Server Functions
@@ -32,8 +32,15 @@ mod_ep_team_ui <- function(id) {
 #' @noRd
 mod_ep_team_server <- function(id) {
   moduleServer(id, function(input, output, session) {
-    data <- reactive(
+    data_team <- reactive(
       get_ep_for_entrant(
+        input$team_number,
+        input$gameweek_number
+      )
+    )
+
+    data_not_owned <- reactive(
+      get_ep_not_owned(
         input$team_number,
         input$gameweek_number
       )
@@ -43,7 +50,17 @@ mod_ep_team_server <- function(id) {
       if (input$confirm_selection == 0) {
         return()
       } else {
-        data()
+        data_team()
+      }
+
+    })
+
+    output$not_owned_table <- renderTable({
+      if (input$confirm_selection == 0) {
+        return()
+      } else {
+        # Only show the first 15 players to match team length
+        data_not_owned()[1:15,]
       }
 
     })

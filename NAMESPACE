@@ -2,6 +2,7 @@
 
 export(get_ep_for_entrant)
 export(get_ep_for_league)
+export(get_ep_not_owned)
 export(run_app)
 import(shiny)
 importFrom(golem,activate_js)

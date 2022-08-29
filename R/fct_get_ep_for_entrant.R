@@ -14,7 +14,7 @@
 #'
 #' @importFrom rlang .data
 get_ep_for_entrant <- function(entrant_number, gameweek) {
-  my_picks <- fplscrapR::get_entry_picks(9680, 4)$picks
+  my_picks <- fplscrapR::get_entry_picks(entrant_number, gameweek)$picks
 
   # Obtaining all the player information to get their expected points
   df <- fplscrapR::get_player_info() |>
@@ -28,7 +28,7 @@ get_ep_for_entrant <- function(entrant_number, gameweek) {
   # ranked table
   entrant_picks <- dplyr::left_join(my_picks, df) |>
     dplyr::select(.data$position, .data$is_captain, .data$is_vice_captain,
-           .data$playername, .data$ep_next, .data$value_form)
+                  .data$playername, .data$ep_next, .data$value_form)
 
   return(entrant_picks)
 }
