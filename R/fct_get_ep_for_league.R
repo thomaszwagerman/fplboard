@@ -12,6 +12,7 @@
 #' # Getting the expected point for my league in GW1
 #' get_ep_for_league(570437, 1)
 #'
+#' @importFrom rlang .data
 get_ep_for_league <- function(league_number, gameweek) {
   # Obtaining league information to get everyone's picks for that gw
   league <- fplscrapR::get_league_entries(league_number)
@@ -31,14 +32,15 @@ get_ep_for_league <- function(league_number, gameweek) {
 
   # Combining the entrant information with their picks
   league_entries <- league |>
-    dplyr::select(entry, player_name, entry_name)
+    dplyr::select(.data$entry, .data$player_name, .data$entry_name)
 
   league_picks <- dplyr::left_join(league_entries, everyones_picks)
 
   # Obtaining all the player information to get their expected points
   df <- fplscrapR::get_player_info() |>
-    dplyr::select(id, playername, ep_next, value_form, selected_by_percent) |>
-    dplyr::mutate("element" = id)
+    dplyr::select(.data$id, .data$playername, .data$ep_next,
+                  .data$value_form, .data$selected_by_percent) |>
+    dplyr::mutate("element" = .data$id)
 
   df$ep_next <- as.numeric(df$ep_next)
 
@@ -47,8 +49,8 @@ get_ep_for_league <- function(league_number, gameweek) {
   league_picks <- dplyr::left_join(league_picks, df)
 
   league_predicted <- league_picks |>
-    dplyr::group_by(entry_name) |>
-    dplyr::summarise(expected_points_gw = sum(ep_next))
+    dplyr::group_by(.data$entry_name) |>
+    dplyr::summarise(expected_points_gw = sum(.data$ep_next))
 
   league_predicted <- league_predicted[order(
     -league_predicted$expected_points_gw

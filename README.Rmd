@@ -29,7 +29,6 @@ This dashboard is built on top of [fplscrapR](https://github.com/wiscostret/fpls
 You can install the development version of fplboard like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
 remotes::install_github("thomaszwagerman/fplboard")
 
 library(fplboard)
@@ -43,10 +42,9 @@ Under the hood it relies on `fplscrapR`'s `get_league_entries()` and `get_player
 
 Let's have a look at FPL Focal's mini league top 10 for EP in gameweek 1:
 
-```{r example}
+```{r example, echo = FALSE}
 library(fplboard)
 library(knitr)
-## basic example code
 
 fpl_focal <- get_ep_for_league(league_number = 486, gameweek = 1)
 kable(fpl_focal[1:10,])

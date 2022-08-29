@@ -7,8 +7,9 @@ License: MIT + file LICENSE
 Imports: 
     config (>= 0.3.1),
     dplyr,
-    fplscrapR,
+    fplscrapR (>= 0.2.6),
     golem (>= 0.3.3),
+    rlang,
     shiny (>= 1.7.2)
 Encoding: UTF-8
 LazyData: true
@@ -24,3 +25,5 @@ Language: en-US
 URL: https://github.com/thomaszwagerman/fplboard
 BugReports: https://github.com/thomaszwagerman/fplboard/issues
 VignetteBuilder: knitr
+Remotes: 
+    wiscostret/fplscrapR
