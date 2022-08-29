@@ -11,7 +11,19 @@ app_ui <- function(request) {
     # Your application UI logic
     fluidPage(
       h1("fplboard"),
-      mod_ep_table_ui("ep_table_1")
+      navlistPanel(
+        id = "tabset",
+        # Mini league panel
+        "Mini League Info",
+        tabPanel("panel_league",
+                 mod_ep_table_ui("ep_table_1")
+        ),
+        # Player data panel
+        "Player Information",
+        tabPanel("panel_players",
+                 "Placeholder Players")
+      )
+
     )
   )
 }
