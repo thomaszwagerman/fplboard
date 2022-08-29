@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 coverage](https://codecov.io/gh/thomaszwagerman/fplboard/branch/main/graph/badge.svg)](https://app.codecov.io/gh/thomaszwagerman/fplboard?branch=main)
 <!-- badges: end -->
 
-# {fplboard} <img src="https://raw.githubusercontent.com/thomaszwagerman/fplboard/main/inst/www/favicon.png" align="right" width="120"/>
+# {fplboard} <img src="inst/app/www/favicon.png" align="right" width="120"/>
 
 The goal of fplboard is to create a dashboard to easily extract useful
 information from the FPL api.
