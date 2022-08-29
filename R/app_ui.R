@@ -23,7 +23,6 @@ app_ui <- function(request) {
         tabPanel("panel_players",
                  "Placeholder Players")
       )
-
     )
   )
 }
