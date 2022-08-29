@@ -20,6 +20,9 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/thomaszwagerman/fplboard/branch/main/graph/badge.svg)](https://app.codecov.io/gh/thomaszwagerman/fplboard?branch=main)
 <!-- badges: end -->
 
+# {fplboard} <img src="https://raw.githubusercontent.com/thomaszwagerman/fplboard/main/inst/www/favicon.png" align="right" width="120"/>
+
+
 The goal of fplboard is to create a dashboard to easily extract useful information from the FPL api.
 
 This dashboard is built on top of [fplscrapR](https://github.com/wiscostret/fplscrapR), but also has its own native functions.
