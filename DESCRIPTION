@@ -9,6 +9,7 @@ Imports:
     dplyr,
     fplscrapR (>= 0.2.6),
     golem (>= 0.3.3),
+    lubridate,
     rlang,
     shiny (>= 1.7.2)
 Encoding: UTF-8
