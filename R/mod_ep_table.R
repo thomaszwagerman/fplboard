@@ -12,12 +12,11 @@ mod_ep_table_ui <- function(id) {
 
   tagList(
 
+    textOutput(ns("gameweek_number"), inline = TRUE),
+
+
     textInput(ns("league_number"),
               "Please enter your mini-league number."),
-
-    selectInput(ns("gameweek_number"),
-                "For which gameweek?",
-                c(1:36)),
 
     actionButton(ns("confirm_selection"),
                  "Confirm"),
@@ -35,7 +34,7 @@ mod_ep_table_server <- function(id) {
     data <- reactive(
       get_ep_for_league(
         input$league_number,
-        input$gameweek_number
+        get_current_gw_number()
       )
     )
 
@@ -47,5 +46,13 @@ mod_ep_table_server <- function(id) {
       }
 
     })
+
+    output$gameweek_number <- renderText({
+      paste0(
+        "We're in Gameweek ",
+        get_current_gw_number()
+      )
+    })
+
   })
 }

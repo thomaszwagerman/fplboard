@@ -13,20 +13,20 @@ app_ui <- function(request) {
       h1("fplboard"),
       navlistPanel(
         id = "tabset",
-        # My team info
-        "My Team Info",
+        # What is the story so far?
+        "Past",
+        tabPanel("panel_present",
+                 "Placeholder Past"),
+        "Present",
+        # How are we doing this gameweek?
         tabPanel("panel_team",
                  mod_ep_team_ui("ep_team_1")
         ),
-        # Mini league panel
-        "Mini League Info",
+        # What will we do next gameweek?
+        "Future",
         tabPanel("panel_league",
                  mod_ep_table_ui("ep_table_1")
-        ),
-        # Player data panel
-        "Player Information",
-        tabPanel("panel_players",
-                 "Placeholder Players")
+        )
       )
     )
   )

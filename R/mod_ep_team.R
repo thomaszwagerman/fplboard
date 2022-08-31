@@ -11,13 +11,11 @@ mod_ep_team_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
+    textOutput(ns("gameweek_number"), inline = TRUE),
 
     textInput(ns("team_number"),
               "Please enter your team number."),
 
-    selectInput(ns("gameweek_number"),
-                "For which gameweek?",
-                c(1:36)),
 
     actionButton(ns("confirm_selection"),
                  "Confirm"),
@@ -35,14 +33,14 @@ mod_ep_team_server <- function(id) {
     data_team <- reactive(
       get_ep_for_entrant(
         input$team_number,
-        input$gameweek_number
+        get_current_gw_number()
       )
     )
 
     data_not_owned <- reactive(
       get_ep_not_owned(
         input$team_number,
-        input$gameweek_number
+        get_current_gw_number()
       )
     )
 
@@ -62,7 +60,14 @@ mod_ep_team_server <- function(id) {
         # Only show the first 15 players to match team length
         data_not_owned()[1:15,]
       }
-
     })
+
+    output$gameweek_number <- renderText({
+      paste0(
+        "We're in Gameweek ",
+        get_current_gw_number()
+      )
+    })
+
   })
 }
