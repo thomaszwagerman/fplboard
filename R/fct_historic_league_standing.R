@@ -48,8 +48,8 @@ get_league_historic_standings <- function(league_number) {
 #' get_league_name(570437)
 #'
 #' @importFrom rlang .data
-
 get_league_name <- function(league_number) {
   league_name <- fplscrapR::get_league(league_number)
   league_name <- league_name$league$name
+  return(league_name)
 }

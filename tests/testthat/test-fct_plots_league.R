@@ -1,3 +1,12 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("is a plot", {
+  expect_s3_class(
+    plot_league_standings(570437),
+    "ggplot"
+  )
+
+  expect_s3_class(
+    plot_league_points(570437),
+    "ggplot"
+  )
 })
+

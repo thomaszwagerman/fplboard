@@ -3,6 +3,9 @@
 #' @description This function fetches the current gameweek information
 #'
 #' @examples
+#' get_current_gw_info()
+#'
+#'
 #' @export
 #'
 #' @importFrom rlang .data
@@ -28,9 +31,14 @@ get_current_gw_info <- function() {
 #' @description This function fetches the current gameweek number
 #'
 #' @examples
+#'
+#' get_current_gw_number()
+#'
+#' @export
+#'
 #' @importFrom rlang .data
 get_current_gw_number <- function() {
-  current_gw_number <- get_current_gw_info() %>%
+  current_gw_number <- get_current_gw_info() |>
     dplyr::select(.data$id)
   return(current_gw_number$id)
 }

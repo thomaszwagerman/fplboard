@@ -2,19 +2,20 @@
 #'
 #' @description This function plots mini league's standings over time
 #'
-#' @param everyones_points df obtained from `get_league_historic_standings()`
-#' @param league_name the minileague name, obtained with `get_league_name()`
+#' @param league_number the minileague number you want a table of
 #'
 #' @export
 #'
 #' @examples
 #' # Getting standings for my league across weeks
-#' everyones_points <- get_league_historic_standings(570437)
-#' league_name <- get_league_name(570437)
-#' plot_league_standings(everyones_points, league_name)
+#' plot_league_standings(570437)
 #'
 #' @importFrom rlang .data
-plot_league_standings <- function(everyones_points, league_name) {
+plot_league_standings <- function(league_number) {
+  everyones_points <- get_league_historic_standings(league_number)
+  league_name <- get_league_name(league_number)
+
+
   overall_rank <- everyones_points |>
     dplyr::select(.data$event, .data$overall_rank, .data$entry_name)
 
@@ -48,12 +49,12 @@ plot_league_standings <- function(everyones_points, league_name) {
         dplyr::distinct(.data$event, .data$description) |>
         dplyr::arrange(.data$event) |>
         dplyr::pull(.data$description),
-      expand = expansion(mult = .1)
+      expand = ggplot2::expansion(mult = .1)
     ) +
     ggplot2::geom_text(
       data = league_rank |>
         dplyr::filter(.data$event == max(.data$event)),
-      ggplot2::aes(x = event + 0.1, label = entry_name),
+      ggplot2::aes(x = .data$event + 0.1, label = .data$entry_name),
       size = 5, hjust = 0
     ) +
     ggplot2::scale_y_reverse() +
@@ -102,19 +103,19 @@ plot_league_standings <- function(everyones_points, league_name) {
 #'
 #' @description This function plots mini league's points over time
 #'
-#' @param everyones_points df obtained from `get_league_historic_standings()`
-#' @param league_name the minileague name, obtained with `get_league_name()`
+#' @param league_number the minileague number you want a table of
 #'
 #' @export
 #'
 #' @examples
 #' # Getting standings for my league across weeks
-#' everyones_points <- get_league_historic_standings(570437)
-#' league_name <- get_league_name(570437)
-#' plot_league_points(everyones_points, league_name)
+#' plot_league_points(570437)
 #'
 #' @importFrom rlang .data
-plot_league_points <- function(everyones_points, league_name) {
+plot_league_points <- function(league_number) {
+  everyones_points <- get_league_historic_standings(league_number)
+  league_name <- get_league_name(league_number)
+
   plotted_data <- everyones_points |>
     dplyr::select(.data$event, .data$total_points, .data$entry_name)
 
@@ -138,12 +139,10 @@ plot_league_points <- function(everyones_points, league_name) {
       # But add grid lines for the vertical axis, customizing color and size
       panel.grid.major.y = ggplot2::element_line(color = "#A8BAC4", size = 0.3),
       # But keep tick marks on horizontal axis
-      axis.ticks.length.x = unit(2, "mm"),
+      axis.ticks.length.x = ggplot2::unit(2, "mm"),
       # Remove the title for both axes
       axis.title = ggplot2::element_blank(),
       # Only the bottom line of the vertical axis is painted in black
-      axis.line.x.bottom = ggplot2::element_line(color = "black"),
-      # But customize labels for the horizontal axis
-      axis.text.x = ggplot2::element_text(family = "PremierLeague", size = 16)
+      axis.line.x.bottom = ggplot2::element_line(color = "black")
     )
 }
