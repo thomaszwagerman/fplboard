@@ -121,6 +121,8 @@ plot_league_points <- function(league_number) {
   plotted_data <- everyones_points |>
     dplyr::select(.data$event, .data$total_points, .data$entry_name)
 
+  plotted_data$description <- paste0("Gameweek ", plotted_data$event)
+
   plotted_data |>
     ggplot2::ggplot(ggplot2::aes(.data$event, .data$total_points)) +
     ggplot2::geom_line(ggplot2::aes(color = .data$entry_name), size = 2.4) +
@@ -132,19 +134,35 @@ plot_league_points <- function(league_number) {
       color = "white",
       stroke = 1 # The width of the border, i.e. stroke.
     ) +
+    ggplot2::geom_text(
+      data = plotted_data |>
+        dplyr::filter(.data$event == max(.data$event)),
+      ggplot2::aes(x = .data$event + 0.1, label = .data$entry_name),
+      size = 5, hjust = 0
+    ) +
     viridis::scale_color_viridis(discrete = TRUE) +
+    ggplot2::labs(
+      x = NULL,
+      title = paste0(league_name),
+      subtitle = paste0("League points by gameweek for ", league_name),
+      caption = "\nSource: \nFPL API"
+    ) +
+    pl_style() +
     ggplot2::theme(
-      # Set background color to white
-      panel.background = ggplot2::element_rect(fill = "white"),
-      # Remove all grid lines
-      panel.grid = ggplot2::element_blank(),
-      # But add grid lines for the vertical axis, customizing color and size
-      panel.grid.major.y = ggplot2::element_line(color = "#A8BAC4", size = 0.3),
-      # But keep tick marks on horizontal axis
-      axis.ticks.length.x = ggplot2::unit(2, "mm"),
-      # Remove the title for both axes
-      axis.title = ggplot2::element_blank(),
-      # Only the bottom line of the vertical axis is painted in black
-      axis.line.x.bottom = ggplot2::element_line(color = "black")
+      legend.position = "none"
     )
+    # ggplot2::theme(
+    #   # Set background color to white
+    #   panel.background = ggplot2::element_rect(fill = "white"),
+    #   # Remove all grid lines
+    #   panel.grid = ggplot2::element_blank(),
+    #   # But add grid lines for the vertical axis, customizing color and size
+    #   panel.grid.major.y = ggplot2::element_line(color = "#A8BAC4", size = 0.3),
+    #   # But keep tick marks on horizontal axis
+    #   axis.ticks.length.x = ggplot2::unit(2, "mm"),
+    #   # Remove the title for both axes
+    #   axis.title = ggplot2::element_blank(),
+    #   # Only the bottom line of the vertical axis is painted in black
+    #   axis.line.x.bottom = ggplot2::element_line(color = "black")
+    # )
 }
