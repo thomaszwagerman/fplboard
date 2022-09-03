@@ -30,11 +30,10 @@ plot_league_standings <- function(league_number) {
   league_rank <- dplyr::bind_rows(league_rank)
   league_rank$description <- paste0("Gameweek ", league_rank$event)
 
-
   ggplot2::ggplot(league_rank, ggplot2::aes(x = .data$event,
                                             y = .data$gw_league_rank,
                                             color = .data$entry_name)) +
-    ggbump::geom_bump(smooth = 15, size = 2) +
+    ggplot2::geom_line(size = 2) +
     ggplot2::geom_point(
       data = league_rank |>
         dplyr::filter(.data$event %in% c(min(.data$event), max(.data$event))),
@@ -58,36 +57,39 @@ plot_league_standings <- function(league_number) {
       size = 5, hjust = 0
     ) +
     ggplot2::scale_y_reverse() +
+    pl_style() +
     ggplot2::theme(
       legend.position = "none",
-      panel.grid = ggplot2::element_blank(),
-      plot.title = ggplot2::element_text(hjust = .5,
-                                         color = "white"),
-      plot.caption = ggplot2::element_text(hjust = 1,
-                                           color = "white",
-                                           size = 8),
-      plot.subtitle = ggplot2::element_text(hjust = .5,
-                                            color = "white",
-                                            size = 10),
-      axis.line = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank(),
-      axis.text.y = ggplot2::element_blank(),
-      axis.title.y = ggplot2::element_blank(),
-      axis.text.x = ggplot2::element_text(face = 2, color = "white"),
-      panel.background = ggplot2::element_rect(fill = "black"),
-      plot.background = ggplot2::element_rect(fill = "black")
-    ) +
-    ggplot2::labs(
-      x = NULL,
-      title = paste0(league_name),
-      subtitle = paste0("League standings by gameweek for ", league_name),
-      caption = "\nSource: \nFPL API"
-    ) +
+      panel.grid.major.y = ggplot2::element_blank(),
+      axis.text = ggplot2::element_blank()) +
+    # ggplot2::theme(
+    #   legend.position = "none",
+    #   panel.grid = ggplot2::element_blank(),
+    #   plot.title = ggplot2::element_text(hjust = .5,
+    #                                      color = "white"),
+    #   plot.caption = ggplot2::element_text(hjust = 1,
+    #                                        color = "white",
+    #                                        size = 8),
+    #   plot.subtitle = ggplot2::element_text(hjust = .5,
+    #                                         color = "white",
+    #                                         size = 10),
+  #   axis.line = ggplot2::element_blank(),
+  #   axis.ticks = ggplot2::element_blank(),
+  #   axis.text.y = ggplot2::element_blank(),
+  #   axis.title.y = ggplot2::element_blank(),
+  #   axis.text.x = ggplot2::element_text(face = 2, color = "white")
+  # ) +
+  ggplot2::labs(
+    x = NULL,
+    title = paste0(league_name),
+    subtitle = paste0("League standings by gameweek for ", league_name),
+    caption = "\nSource: \nFPL API"
+  ) +
     ggplot2::geom_point(
       data = tibble::tibble(x = 0.55, y = 1:max(league_rank$gw_league_rank)),
       ggplot2::aes(x = .data$x, y = .data$y),
       inherit.aes = FALSE,
-      color = "white",
+      color = "black",
       size = 10,
       pch = 21
     ) +
@@ -95,7 +97,7 @@ plot_league_standings <- function(league_number) {
       data = tibble::tibble(x = .55, y = 1:max(league_rank$gw_league_rank)),
       ggplot2::aes(x = .data$x, y = .data$y, label = .data$y),
       inherit.aes = FALSE,
-      color = "white"
+      color = "black"
     )
 }
 

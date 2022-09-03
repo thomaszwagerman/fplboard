@@ -8,12 +8,12 @@ Imports:
     config (>= 0.3.1),
     dplyr,
     fplscrapR (>= 0.2.6),
-    ggbump,
     ggplot2,
     golem (>= 0.3.3),
     lubridate,
     rlang,
     shiny (>= 1.7.2),
+    showtext,
     tibble,
     viridis
 Encoding: UTF-8
