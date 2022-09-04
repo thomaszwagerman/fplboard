@@ -16,7 +16,8 @@ app_ui <- function(request) {
         # What is the story so far?
         "Past",
         tabPanel("panel_present",
-                 "Placeholder Past"),
+                 mod_plot_league_ui("plot_league_1")
+        ),
         "Present",
         # How are we doing this gameweek?
         tabPanel("panel_team",
