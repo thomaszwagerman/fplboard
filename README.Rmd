@@ -55,8 +55,9 @@ benchwarmers |>
 ```
 Or visualising my mini league rank, using `get_league_entries()` information.
 
-``` {r ranked_plot, echo = FALSE, warning = FALSE}
+``` {r ranked_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
 library(fplboard)
+library(ggplot2)
 plot_league_standings(570437)
 ```
 

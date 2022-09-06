@@ -15,7 +15,6 @@ plot_league_standings <- function(league_number) {
   everyones_points <- get_league_historic_standings(league_number)
   league_name <- get_league_name(league_number)
 
-
   overall_rank <- everyones_points |>
     dplyr::select(.data$event, .data$overall_rank, .data$entry_name)
 
@@ -48,7 +47,7 @@ plot_league_standings <- function(league_number) {
         dplyr::distinct(.data$event, .data$description) |>
         dplyr::arrange(.data$event) |>
         dplyr::pull(.data$description),
-      expand = ggplot2::expansion(mult = .1)
+      expand = ggplot2::expansion(mult = .4)
     ) +
     ggplot2::geom_text(
       data = league_rank |>
