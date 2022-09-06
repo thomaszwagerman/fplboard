@@ -37,17 +37,26 @@ library(fplboard)
 
 ## Example
 
-This is a basic example which shows a function that return an expected points (EP) table for a given miniweek.
+This is a basic example which shows a function that return an expected points (EP) table for a given mini league.
 
 Under the hood it relies on `fplscrapR`'s `get_league_entries()` and `get_player_info()` functions. 
 
-Let's have a look at FPL Focal's mini league top 10 for EP in gameweek 1:
+Let's have a look at the ranks:
 
 ```{r example, echo = FALSE}
 library(fplboard)
-library(knitr)
+library(flextable)
 
-fpl_focal <- get_ep_for_league(league_number = 486, gameweek = 1)
-kable(fpl_focal[1:10,])
+benchwarmers <- get_ep_for_league(league_number = 570437, gameweek = fplboard::get_current_gw_number())
 
+benchwarmers |> 
+  flextable() |> 
+  theme_vanilla()
 ```
+Or visualising my mini league rank, using `get_league_entries()` information.
+
+``` {r ranked_plot, echo = FALSE, warning = FALSE}
+library(fplboard)
+plot_league_standings(570437)
+```
+

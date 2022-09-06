@@ -31,26 +31,17 @@ library(fplboard)
 ## Example
 
 This is a basic example which shows a function that return an expected
-points (EP) table for a given miniweek.
+points (EP) table for a given mini league.
 
 Under the hood it relies on `fplscrapR`’s `get_league_entries()` and
 `get_player_info()` functions.
 
-Let’s have a look at FPL Focal’s mini league top 10 for EP in gameweek
-1:
+Let’s have a look at the ranks:
 
     #> Joining, by = "entry"
     #> Joining, by = "element"
 
-| entry_name         | expected_points_gw |
-|:-------------------|-------------------:|
-| CA ElAntilope      |               82.7 |
-| Hotel? Thiago.     |               82.2 |
-| 22                 |               81.5 |
-| FYewFc             |               81.2 |
-| SmithRoweYourBoat  |               81.2 |
-| 八百六十八包夜     |               78.5 |
-| Adem_Ouis_Dz       |               78.1 |
-| Groß & Petit Piton |               77.9 |
-| Miami’s McMayhem   |               77.9 |
-| Núnez\>Haaland     |               77.9 |
+Or visualising my mini league rank, using `get_league_entries()`
+information.
+
+<img src="man/figures/README-ranked_plot-1.png" width="100%" />
