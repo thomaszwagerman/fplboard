@@ -43,7 +43,7 @@ Under the hood it relies on `fplscrapR`'s `get_league_entries()` and `get_player
 
 Let's have a look at the ranks:
 
-```{r example, echo = FALSE}
+```{r example, echo = FALSE, warnings = FALSE}
 library(fplboard)
 library(flextable)
 
