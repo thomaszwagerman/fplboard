@@ -125,19 +125,22 @@ plot_league_points <- function(league_number) {
   plotted_data |>
     ggplot2::ggplot(ggplot2::aes(.data$event, .data$total_points)) +
     ggplot2::geom_line(ggplot2::aes(color = .data$entry_name), size = 2.4) +
-    ggplot2::geom_point(
-      ggplot2::aes(group = .data$entry_name),
-      size = 5,
-      # Type of point that allows us to have both color (border) and fill.
-      pch = 21,
-      color = "white",
-      stroke = 1 # The width of the border, i.e. stroke.
-    ) +
-    ggplot2::geom_text(
+    ggplot2::geom_point(ggplot2::aes(color = .data$entry_name), alpha = 0.8, size = 5) +
+    ggrepel::geom_text_repel(
       data = plotted_data |>
         dplyr::filter(.data$event == max(.data$event)),
       ggplot2::aes(x = .data$event + 0.1, label = .data$entry_name),
-      size = 5, hjust = 0
+      size = 5, hjust = "left", nudge_x = 0.5, direction = "y"
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = plotted_data$event |>
+        unique() |>
+        sort(),
+      labels = plotted_data |>
+        dplyr::distinct(.data$event, .data$description) |>
+        dplyr::arrange(.data$event) |>
+        dplyr::pull(.data$description),
+      expand = ggplot2::expansion(mult = .4)
     ) +
     viridis::scale_color_viridis(discrete = TRUE) +
     ggplot2::labs(

@@ -35,7 +35,7 @@ remotes::install_github("thomaszwagerman/fplboard")
 library(fplboard)
 ```
 
-## Example
+## Examples
 
 This is a basic example which shows a function that return an expected points (EP) table for a given mini league.
 
@@ -43,17 +43,25 @@ Under the hood it relies on `fplscrapR`'s `get_league_entries()` and `get_player
 
 Let's have a look at the ranks:
 
-```{r example, echo = FALSE, warnings = FALSE}
+```{r example, echo = FALSE, message = FALSE, warning = FALSE}
 library(fplboard)
-library(flextable)
+library(knitr)
 
-benchwarmers <- get_ep_for_league(league_number = 570437, gameweek = fplboard::get_current_gw_number())
+benchwarmers <- get_ep_for_league(league_number = 570437, gameweek = get_current_gw_number())
 
-benchwarmers |> 
-  flextable() |> 
-  theme_vanilla()
+kable(
+  benchwarmers
+)
 ```
-Or visualising my mini league rank, using `get_league_entries()` information.
+
+Or visualising my mini league point, using `get_league_entries()` information.
+``` {r point_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
+library(fplboard)
+library(ggplot2)
+plot_league_points(570437)
+```
+
+Or by rank:
 
 ``` {r ranked_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
 library(fplboard)

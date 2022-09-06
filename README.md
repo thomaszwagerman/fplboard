@@ -28,7 +28,7 @@ remotes::install_github("thomaszwagerman/fplboard")
 library(fplboard)
 ```
 
-## Example
+## Examples
 
 This is a basic example which shows a function that return an expected
 points (EP) table for a given mini league.
@@ -38,10 +38,22 @@ Under the hood it relies on `fplscrapR`’s `get_league_entries()` and
 
 Let’s have a look at the ranks:
 
-    #> Joining, by = "entry"
-    #> Joining, by = "element"
+| entry_name          | expected_points_gw |
+|:--------------------|-------------------:|
+| Yes Ndidi           |               77.7 |
+| Cookie Monstars     |               71.8 |
+| Erik Ten Haggis     |               70.5 |
+| Humza’s hunneez     |               65.6 |
+| Martial Law         |               63.1 |
+| SROSS FC            |               62.9 |
+| Rise of Haaland     |               62.7 |
+| Route-One Direction |               62.0 |
+| Newhaven FC         |               46.8 |
 
-Or visualising my mini league rank, using `get_league_entries()`
+Or visualising my mini league point, using `get_league_entries()`
 information.
+<img src="man/figures/README-point_plot-1.png" width="100%" />
+
+Or by rank:
 
 <img src="man/figures/README-ranked_plot-1.png" width="100%" />
