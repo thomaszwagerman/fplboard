@@ -27,7 +27,7 @@ plot_league_standings <- function(league_number) {
   })
 
   league_rank <- dplyr::bind_rows(league_rank)
-  league_rank$description <- paste0("Gameweek ", league_rank$event)
+  league_rank$description <- paste0("GW ", league_rank$event)
 
   ggplot2::ggplot(league_rank, ggplot2::aes(x = .data$event,
                                             y = .data$gw_league_rank,
@@ -120,7 +120,7 @@ plot_league_points <- function(league_number) {
   plotted_data <- everyones_points |>
     dplyr::select(.data$event, .data$total_points, .data$entry_name)
 
-  plotted_data$description <- paste0("Gameweek ", plotted_data$event)
+  plotted_data$description <- paste0("GW ", plotted_data$event)
 
   plotted_data |>
     ggplot2::ggplot(ggplot2::aes(.data$event, .data$total_points)) +
@@ -153,18 +153,4 @@ plot_league_points <- function(league_number) {
     ggplot2::theme(
       legend.position = "none"
     )
-    # ggplot2::theme(
-    #   # Set background color to white
-    #   panel.background = ggplot2::element_rect(fill = "white"),
-    #   # Remove all grid lines
-    #   panel.grid = ggplot2::element_blank(),
-    #   # But add grid lines for the vertical axis, customizing color and size
-    #   panel.grid.major.y = ggplot2::element_line(color = "#A8BAC4", size = 0.3),
-    #   # But keep tick marks on horizontal axis
-    #   axis.ticks.length.x = ggplot2::unit(2, "mm"),
-    #   # Remove the title for both axes
-    #   axis.title = ggplot2::element_blank(),
-    #   # Only the bottom line of the vertical axis is painted in black
-    #   axis.line.x.bottom = ggplot2::element_line(color = "black")
-    # )
 }

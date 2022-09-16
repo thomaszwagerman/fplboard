@@ -1,6 +1,6 @@
 # Thank you for using fplboard!
 
-## About fplboard
+## fplboard
 
 **fplboard** has been written in R, and is a
 [Shiny](https://shiny.rstudio.com/) application written as a package
@@ -17,7 +17,7 @@ This dashboard is built on top of another R package,
 [fplscrapR](https://github.com/wiscostret/fplscrapR), without which this
 website would not be possible. Do go and check that out!
 
-## About Me
+## Author
 
 Hi there! My name is Thomas Zwagerman and I’m the author and maintainer
 of this R package. I am a data scientist and R developer.

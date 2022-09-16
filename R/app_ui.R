@@ -9,7 +9,7 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     navbarPage(
-      title = img(
+      title = tags$img(
         src = "www/logo.png",
         height = "100px"
       ),
@@ -19,31 +19,36 @@ app_ui <- function(request) {
       bslib::nav(
         "Getting Started",
         htmltools::includeMarkdown(app_sys("app/www/getting_started.md")),
+        align = "middle"
       ),
       bslib::nav_menu(
         "Past",
         bslib::nav(
           "Mini-league Standings",
-          mod_plot_league_ui("plot_league_1")
+          mod_plot_league_ui("plot_league_1"),
+          align = "middle"
         )
       ),
       bslib::nav_menu(
         "Present",
         bslib::nav(
           "Current Team Expected Points",
-          mod_ep_team_ui("ep_team_1")
+          mod_ep_team_ui("ep_team_1"),
+          align = "middle"
         )
       ),
       bslib::nav_menu(
         "Future",
         bslib::nav(
           "Mini-league Expected Points",
-          mod_ep_table_ui("ep_table_1")
+          mod_ep_table_ui("ep_table_1"),
+          align = "middle"
         )
       ),
       bslib::nav(
         "About",
-        htmltools::includeMarkdown(app_sys("app/www/about.md"))
+        htmltools::includeMarkdown(app_sys("app/www/about.md")),
+        align = "middle"
       ),
       bslib::nav_item(
         tags$a(
