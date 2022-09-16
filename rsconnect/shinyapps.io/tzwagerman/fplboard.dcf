@@ -1,0 +1,13 @@
+name: fplboard
+title: fplboard
+username:
+account: tzwagerman
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7036779
+bundleId: 6310193
+url: https://tzwagerman.shinyapps.io/fplboard/
+when: 1663355497.92994
+lastSyncTime: 1663355497.92997
+asMultiple: FALSE
+asStatic: FALSE

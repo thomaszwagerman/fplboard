@@ -14,6 +14,8 @@ Imports:
     golem (>= 0.3.3),
     htmltools,
     lubridate,
+    markdown,
+    pkgload,
     rlang,
     shiny (>= 1.7.2),
     shinyWidgets,

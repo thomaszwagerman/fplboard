@@ -12,3 +12,5 @@ $run_dev.*
 ^codecov\.yml$
 ^\.github$
 _\.new\.png$
+^app\.R$
+^rsconnect$
