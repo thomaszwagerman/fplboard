@@ -54,7 +54,8 @@ kable(
 )
 ```
 
-Or visualising my mini league point, using `get_league_entries()` information.
+Or visualising my mini league point, using `get_league_entries()` information:
+
 ``` {r point_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
 library(fplboard)
 library(ggplot2)

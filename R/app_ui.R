@@ -8,25 +8,53 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
-    # Your application UI logic
-    fluidPage(
-      h1("fplboard"),
-      navlistPanel(
-        id = "tabset",
-        # What is the story so far?
+    navbarPage(
+      title = img(
+        src = "www/logo.png",
+        height = "80px"
+      ),
+      windowTitle = "fplboard",
+      theme = light,
+
+      bslib::nav(
+        "Getting Started",
+        "Home placeholder"
+      ),
+      bslib::nav_menu(
         "Past",
-        tabPanel("panel_present",
-                 mod_plot_league_ui("plot_league_1")
-        ),
+        bslib::nav(
+          "Mini-league Standings",
+          mod_plot_league_ui("plot_league_1")
+        )
+      ),
+      bslib::nav_menu(
         "Present",
-        # How are we doing this gameweek?
-        tabPanel("panel_team",
-                 mod_ep_team_ui("ep_team_1")
-        ),
-        # What will we do next gameweek?
+        bslib::nav(
+          "Current Team Expected Points",
+          mod_ep_team_ui("ep_team_1")
+        )
+      ),
+      bslib::nav_menu(
         "Future",
-        tabPanel("panel_league",
-                 mod_ep_table_ui("ep_table_1")
+        bslib::nav(
+          "Mini-league Expected Points",
+          mod_ep_table_ui("ep_table_1")
+        )
+      ),
+      bslib::nav(
+        "About",
+        "placeholder"
+      ),
+      bslib::nav_item(
+        tags$a(
+          icon("github"),
+          "Source Code",
+          href = "https://github.com/thomaszwagerman/fplboard",
+          target = "_blank",
+          align = "right"
+        ),
+        bslib::nav_item(
+          shinyWidgets::materialSwitch("dark_mode", label = icon("moon"))
         )
       )
     )

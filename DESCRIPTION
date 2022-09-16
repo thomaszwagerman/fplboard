@@ -5,6 +5,7 @@ Authors@R: person('Thomas', 'Zwagerman', email = 'thomas_zwagerman@hotmail.com',
 Description: POC application to visualise mini leagues in FPL.
 License: MIT + file LICENSE
 Imports: 
+    bslib,
     config (>= 0.3.1),
     dplyr,
     fplscrapR (>= 0.2.6),
@@ -14,6 +15,7 @@ Imports:
     lubridate,
     rlang,
     shiny (>= 1.7.2),
+    shinyWidgets,
     showtext,
     tibble,
     viridis
