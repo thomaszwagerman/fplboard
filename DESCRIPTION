@@ -12,6 +12,7 @@ Imports:
     ggplot2,
     ggrepel,
     golem (>= 0.3.3),
+    htmltools,
     lubridate,
     rlang,
     shiny (>= 1.7.2),

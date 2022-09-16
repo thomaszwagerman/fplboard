@@ -11,14 +11,14 @@ app_ui <- function(request) {
     navbarPage(
       title = img(
         src = "www/logo.png",
-        height = "80px"
+        height = "100px"
       ),
       windowTitle = "fplboard",
       theme = light,
 
       bslib::nav(
         "Getting Started",
-        "Home placeholder"
+        htmltools::includeMarkdown(app_sys("app/www/getting_started.md")),
       ),
       bslib::nav_menu(
         "Past",
@@ -43,15 +43,14 @@ app_ui <- function(request) {
       ),
       bslib::nav(
         "About",
-        "placeholder"
+        htmltools::includeMarkdown(app_sys("app/www/about.md"))
       ),
       bslib::nav_item(
         tags$a(
           icon("github"),
           "Source Code",
           href = "https://github.com/thomaszwagerman/fplboard",
-          target = "_blank",
-          align = "right"
+          target = "_blank"
         ),
         bslib::nav_item(
           shinyWidgets::materialSwitch("dark_mode", label = icon("moon"))
