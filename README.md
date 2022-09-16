@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# fplboard <img src="inst/app/www/favicon.png" align="right" width="120"/>
+# fplboard <img src="inst/app/www/logo.png" align="right" width="120"/>
 
 <!-- badges: start -->
 
@@ -12,7 +12,7 @@ coverage](https://codecov.io/gh/thomaszwagerman/fplboard/branch/main/graph/badge
 <!-- badges: end -->
 
 The goal of fplboard is to create a dashboard to easily extract useful
-information from the FPL api.
+information from the FPL API.
 
 This dashboard is built on top of
 [fplscrapR](https://github.com/wiscostret/fplscrapR), but also has its
@@ -40,18 +40,19 @@ Let’s have a look at the ranks:
 
 | entry_name          | expected_points_gw |
 |:--------------------|-------------------:|
-| Yes Ndidi           |               77.7 |
-| Cookie Monstars     |               71.8 |
-| Erik Ten Haggis     |               70.5 |
-| Humza’s hunneez     |               65.6 |
-| Martial Law         |               63.1 |
-| SROSS FC            |               62.9 |
-| Rise of Haaland     |               62.7 |
-| Route-One Direction |               62.0 |
-| Newhaven FC         |               46.8 |
+| Rise of Haaland     |               56.3 |
+| Yes Ndidi           |               51.0 |
+| Humza’s hunneez     |               47.9 |
+| SROSS FC            |               47.7 |
+| Cookie Monstars     |               46.7 |
+| Erik Ten Haggis     |               46.7 |
+| Martial Law         |               46.2 |
+| Route-One Direction |               42.0 |
+| Newhaven FC         |               32.7 |
 
 Or visualising my mini league point, using `get_league_entries()`
-information.
+information:
+
 <img src="man/figures/README-point_plot-1.png" width="100%" />
 
 Or by rank:
