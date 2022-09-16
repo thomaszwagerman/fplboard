@@ -20,6 +20,7 @@ Imports:
     shiny (>= 1.7.2),
     shinyWidgets,
     showtext,
+    thematic,
     tibble,
     viridis
 Encoding: UTF-8

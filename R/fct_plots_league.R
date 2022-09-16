@@ -61,29 +61,12 @@ plot_league_standings <- function(league_number) {
       legend.position = "none",
       panel.grid.major.y = ggplot2::element_blank(),
       axis.text = ggplot2::element_blank()) +
-    # ggplot2::theme(
-    #   legend.position = "none",
-    #   panel.grid = ggplot2::element_blank(),
-    #   plot.title = ggplot2::element_text(hjust = .5,
-    #                                      color = "white"),
-    #   plot.caption = ggplot2::element_text(hjust = 1,
-    #                                        color = "white",
-    #                                        size = 8),
-    #   plot.subtitle = ggplot2::element_text(hjust = .5,
-    #                                         color = "white",
-    #                                         size = 10),
-  #   axis.line = ggplot2::element_blank(),
-  #   axis.ticks = ggplot2::element_blank(),
-  #   axis.text.y = ggplot2::element_blank(),
-  #   axis.title.y = ggplot2::element_blank(),
-  #   axis.text.x = ggplot2::element_text(face = 2, color = "white")
-  # ) +
-  ggplot2::labs(
-    x = NULL,
-    title = paste0(league_name),
-    subtitle = paste0("League standings by gameweek for ", league_name),
-    caption = "\nSource: \nFPL API"
-  ) +
+    ggplot2::labs(
+      x = NULL,
+      title = paste0(league_name),
+      subtitle = paste0("League standings by gameweek for ", league_name),
+      caption = "\nSource: \nFPL API"
+    ) +
     ggplot2::geom_point(
       data = tibble::tibble(x = 0.55, y = 1:max(league_rank$gw_league_rank)),
       ggplot2::aes(x = .data$x, y = .data$y),
