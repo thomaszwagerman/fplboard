@@ -70,7 +70,8 @@ benchwarmers |>
   gt::tab_row_group(
     label = "Starting 11",
     rows = c(1:11)
-  )
+  ) |> 
+  gt::as_raw_html()
 ```
 
 
