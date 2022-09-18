@@ -43,7 +43,7 @@ Under the hood it relies on `fplscrapR`’s `get_entry_player_picks()` and
 Let’s have a look at the table:
 
 <p align="center">
-<img src="man/figures/bencwarmer_table.png" height="500px" width = "700px">
+<img src="man/figures/benchwarmer_table.png">
 </p>
 
 Another bit of functionality is plotting minileague point over time,

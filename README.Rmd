@@ -74,7 +74,7 @@ benchwarmers <- benchwarmers |>
 
 ```
 
-<p align="center"><img src="man/figures/bencwarmer_table.png" height="500px" width = "700px"></p>
+<p align="center"><img src="man/figures/benchwarmer_table.png"></p>
 
 
 Another bit of functionality is plotting minileague point over time, using `get_league_entries()` information:
