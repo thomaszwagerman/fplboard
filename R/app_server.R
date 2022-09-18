@@ -7,7 +7,7 @@
 app_server <- function(input, output, session) {
 
   observe(session$setCurrentTheme(
-    if (isTRUE(input$dark_mode)) dark else light
+    if (isTRUE(input$light_mode)) light else dark
   ))
 
   mod_ep_table_server("ep_table_1")
