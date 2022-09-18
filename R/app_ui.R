@@ -15,7 +15,6 @@ app_ui <- function(request) {
       ),
       windowTitle = "fplboard",
       theme = light,
-
       bslib::nav(
         "Getting Started",
         htmltools::includeMarkdown(app_sys("app/www/getting_started.md")),

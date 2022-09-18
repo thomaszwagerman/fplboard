@@ -25,6 +25,8 @@ The goal of fplboard is to create a dashboard to easily extract useful informati
 
 This dashboard is built on top of [fplscrapR](https://github.com/wiscostret/fplscrapR), but also has its own native functions.
 
+fplboard is built in a modular way using the golem framework. Each module has its own functionality and is an individual menu item, meaning features will be added to this package slowly over time.
+
 ## Installation
 
 You can install the development version of fplboard like so:
@@ -41,7 +43,7 @@ This is a basic example which shows a function that return an expected points (E
 
 Under the hood it relies on `fplscrapR`'s `get_league_entries()` and `get_player_info()` functions. 
 
-Let's have a look at the ranks:
+Let's have a look at the table:
 
 ```{r example, echo = FALSE, message = FALSE, warning = FALSE}
 library(fplboard)
@@ -54,7 +56,7 @@ kable(
 )
 ```
 
-Or visualising my mini league point, using `get_league_entries()` information:
+Or visualising my minileague point over time, using `get_league_entries()` information:
 
 ``` {r point_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
 library(fplboard)
@@ -62,7 +64,7 @@ library(ggplot2)
 plot_league_points(570437)
 ```
 
-Or by rank:
+Or by rank for each gameweek:
 
 ``` {r ranked_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
 library(fplboard)
