@@ -12,6 +12,8 @@ Imports:
     ggplot2,
     ggrepel,
     golem (>= 0.3.3),
+    gt,
+    gtExtras,
     htmltools,
     lubridate,
     markdown,
@@ -19,9 +21,10 @@ Imports:
     rlang,
     shiny (>= 1.7.2),
     shinyWidgets,
-    showtext,
+    thematic,
     tibble,
-    viridis
+    viridis,
+    waiter
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.1

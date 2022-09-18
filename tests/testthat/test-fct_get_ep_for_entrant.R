@@ -8,12 +8,16 @@ test_that("is a dataframe", {
 test_that("colnames are correct", {
   expect_equal(
     names(get_ep_for_entrant(9680, 1)),
-    c("position",
+    c(
+      "position",
       "is_captain",
       "is_vice_captain",
+      "team_code",
+      "photo",
       "playername",
       "ep_next",
-      "value_form")
+      "value_form",
+      "selected_by_percent")
   )
 })
 

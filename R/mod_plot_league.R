@@ -7,23 +7,26 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_plot_league_ui <- function(id){
+mod_plot_league_ui <- function(id) {
   ns <- NS(id)
   tagList(
 
     tagList(
-
+      waiter::useWaiter(),
       textOutput(ns("gameweek_number"), inline = TRUE),
-
 
       textInput(ns("league_number"),
                 "Please enter your mini-league number."),
-
       actionButton(ns("confirm_selection"),
                    "Confirm"),
-
-      plotOutput(ns("league_points")),
-      plotOutput(ns("league_rank"))
+      waiter::withWaiter(
+        plotOutput(ns("league_points")),
+        html = loading_screen
+      ),
+      waiter::withWaiter(
+        plotOutput(ns("league_rank")),
+        html = loading_screen
+      )
 
     )
 
@@ -33,32 +36,33 @@ mod_plot_league_ui <- function(id){
 #' plot_league Server Functions
 #'
 #' @noRd
-mod_plot_league_server <- function(id){
-  moduleServer( id, function(input, output, session){
+mod_plot_league_server <- function(id) {
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    output$league_points <- renderPlot({
-      if (input$confirm_selection == 0) {
-        return()
-      } else {
-        plot_league_points(
-          input$league_number
-        )
-      }
+    # Starting with league points
+    league_points <- eventReactive(input$confirm_selection, {
+      plot_league_points(
+        input$league_number
+      )
+    })
 
+    output$league_points <- renderPlot({
+      league_points()
+    })
+
+    # Moving on to league rank
+    league_rank <- eventReactive(input$confirm_selection, {
+      plot_league_standings(
+        input$league_number
+      )
     })
 
     output$league_rank <- renderPlot({
-      if (input$confirm_selection == 0) {
-        return()
-      } else {
-        plot_league_standings(
-          input$league_number
-        )
-      }
-
+      league_rank()
     })
 
+    # Finally show the gameweek number
     output$gameweek_number <- renderText({
       paste0(
         "We're in Gameweek ",
@@ -68,9 +72,3 @@ mod_plot_league_server <- function(id){
 
   })
 }
-
-## To be copied in the UI
-# mod_plot_league_ui("plot_league_1")
-
-## To be copied in the server
-# mod_plot_league_server("plot_league_1")

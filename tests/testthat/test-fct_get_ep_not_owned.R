@@ -8,7 +8,9 @@ test_that("is a dataframe", {
 test_that("colnames are correct", {
   expect_equal(
     names(get_ep_not_owned(9680, 1)),
-    c("playername",
+    c("team_code",
+      "photo",
+      "playername",
       "ep_next",
       "value_form",
       "selected_by_percent",

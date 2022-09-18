@@ -14,8 +14,7 @@ app_ui <- function(request) {
         height = "100px"
       ),
       windowTitle = "fplboard",
-      theme = light,
-
+      theme = dark,
       bslib::nav(
         "Getting Started",
         htmltools::includeMarkdown(app_sys("app/www/getting_started.md")),
@@ -58,7 +57,7 @@ app_ui <- function(request) {
           target = "_blank"
         ),
         bslib::nav_item(
-          shinyWidgets::materialSwitch("dark_mode", label = icon("moon"))
+          shinyWidgets::materialSwitch("light_mode", label = icon("sun"))
         )
       )
     )
