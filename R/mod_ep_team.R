@@ -20,9 +20,9 @@ mod_ep_team_ui <- function(id) {
     actionButton(ns("confirm_selection"),
                  "Confirm"),
 
-    tableOutput(ns("ep_table")),
+    gt::gt_output(ns("ep_table")),
 
-    tableOutput(ns("not_owned_table")))
+    gt::gt_output(ns("not_owned_table")))
 }
 
 #' ep_team Server Functions
@@ -44,21 +44,52 @@ mod_ep_team_server <- function(id) {
       )
     )
 
-    output$ep_table <- renderTable({
+    output$ep_table <- gt::render_gt({
       if (input$confirm_selection == 0) {
         return()
       } else {
-        data_team()
+        data_team() |>
+          dplyr::select(.data$team_code, .data$photo,
+                        "Player" = .data$playername,
+                        "Expected Points" = .data$ep_next,
+                        "Selected by (%)" = .data$selected_by_percent) |>
+          gt::gt() |>
+          gtExtras::gt_img_rows(photo, img_source = "web") |>
+          gtExtras::gt_img_rows(team_code, img_source = "web") |>
+          gt::cols_label(
+            team_code = "",
+            photo = ""
+          ) |>
+          gt::tab_row_group(
+            label = "Bench",
+            rows = c(12:15)
+          ) |>
+          gt::tab_row_group(
+            label = "Starting 11",
+            rows = c(1:11)
+          )
       }
 
     })
 
-    output$not_owned_table <- renderTable({
+    output$not_owned_table <- gt::render_gt({
       if (input$confirm_selection == 0) {
         return()
       } else {
         # Only show the first 15 players to match team length
-        data_not_owned()[1:15,]
+        data_not_owned()[1:15,] |>
+          dplyr::select(.data$team_code, .data$photo,
+                        "Player" = .data$playername,
+                        "Expected Points" = .data$ep_next,
+                        "Selected by (%)" = .data$selected_by_percent,
+                        "Transfers In" = .data$transfers_in) |>
+          gt::gt() |>
+          gtExtras::gt_img_rows(photo, img_source = "web") |>
+          gtExtras::gt_img_rows(team_code, img_source = "web") |>
+          gt::cols_label(
+            team_code = "",
+            photo = ""
+          )
       }
     })
 
