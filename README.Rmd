@@ -39,9 +39,9 @@ library(fplboard)
 
 ## Examples
 
-This is a basic example which shows a function that return an expected points (EP) table for a given mini league.
+This is a basic example which shows a function that return expected points table for a given team.
 
-Under the hood it relies on `fplscrapR`'s `get_league_entries()` and `get_player_info()` functions. 
+Under the hood it relies on `fplscrapR`'s `get_entry_player_picks()` and `get_player_info()` functions. 
 
 Let's have a look at the table:
 
@@ -49,14 +49,32 @@ Let's have a look at the table:
 library(fplboard)
 library(knitr)
 
-benchwarmers <- get_ep_for_league(league_number = 570437, gameweek = get_current_gw_number())
+benchwarmers <- get_ep_for_entrant(entrant_number = 9680, gameweek = get_current_gw_number())
 
-kable(
-  benchwarmers
-)
+benchwarmers |>
+  dplyr::select(.data$team_code, .data$photo,
+                "Player" = .data$playername,
+                "Expected Points" = .data$ep_next,
+                "Selected by (%)" = .data$selected_by_percent) |>
+  gt::gt() |>
+  gtExtras::gt_img_rows(.data$photo, img_source = "web") |>
+  gtExtras::gt_img_rows(.data$team_code, img_source = "web") |>
+  gt::cols_label(
+    team_code = "",
+    photo = ""
+  ) |>
+  gt::tab_row_group(
+    label = "Bench",
+    rows = c(12:15)
+  ) |>
+  gt::tab_row_group(
+    label = "Starting 11",
+    rows = c(1:11)
+  )
 ```
 
-Or visualising my minileague point over time, using `get_league_entries()` information:
+
+Another bit of functionality is plotting minileague point over time, using `get_league_entries()` information:
 
 ``` {r point_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
 library(fplboard)
