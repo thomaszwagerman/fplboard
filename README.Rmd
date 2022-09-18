@@ -45,13 +45,13 @@ Under the hood it relies on `fplscrapR`'s `get_entry_player_picks()` and `get_pl
 
 Let's have a look at the table:
 
-```{r example, echo = FALSE, message = FALSE, warning = FALSE}
+```{r example, echo = FALSE, message = FALSE, warning = FALSE, eval = FALSE}
 library(fplboard)
 library(knitr)
 
 benchwarmers <- get_ep_for_entrant(entrant_number = 9680, gameweek = get_current_gw_number())
 
-benchwarmers |>
+benchwarmers <- benchwarmers |>
   dplyr::select(.data$team_code, .data$photo,
                 "Player" = .data$playername,
                 "Expected Points" = .data$ep_next,
@@ -70,9 +70,11 @@ benchwarmers |>
   gt::tab_row_group(
     label = "Starting 11",
     rows = c(1:11)
-  ) |> 
-  gt::as_raw_html()
+  )  
+
 ```
+
+<p align="center"><img src="man/figures/bencwarmer_table.png" width="700px"></p>
 
 
 Another bit of functionality is plotting minileague point over time, using `get_league_entries()` information:
