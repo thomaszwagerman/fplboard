@@ -19,10 +19,18 @@ mod_ep_team_ui <- function(id) {
 
     actionButton(ns("confirm_selection"),
                  "Confirm"),
-
-    gt::gt_output(ns("ep_table")),
-
-    gt::gt_output(ns("not_owned_table")))
+    br(),
+    br(),
+    br(),
+    fluidRow(
+      column(6,
+             gt::gt_output(ns("ep_table"))
+      ),
+      column(6,
+             gt::gt_output(ns("not_owned_table"))
+      )
+    )
+  )
 }
 
 #' ep_team Server Functions
@@ -54,8 +62,8 @@ mod_ep_team_server <- function(id) {
                         "Expected Points" = .data$ep_next,
                         "Selected by (%)" = .data$selected_by_percent) |>
           gt::gt() |>
-          gtExtras::gt_img_rows(photo, img_source = "web") |>
-          gtExtras::gt_img_rows(team_code, img_source = "web") |>
+          gtExtras::gt_img_rows(.data$photo, img_source = "web") |>
+          gtExtras::gt_img_rows(.data$team_code, img_source = "web") |>
           gt::cols_label(
             team_code = "",
             photo = ""
@@ -84,8 +92,8 @@ mod_ep_team_server <- function(id) {
                         "Selected by (%)" = .data$selected_by_percent,
                         "Transfers In" = .data$transfers_in) |>
           gt::gt() |>
-          gtExtras::gt_img_rows(photo, img_source = "web") |>
-          gtExtras::gt_img_rows(team_code, img_source = "web") |>
+          gtExtras::gt_img_rows(.data$photo, img_source = "web") |>
+          gtExtras::gt_img_rows(.data$team_code, img_source = "web") |>
           gt::cols_label(
             team_code = "",
             photo = ""
