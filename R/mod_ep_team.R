@@ -19,15 +19,23 @@ mod_ep_team_ui <- function(id) {
 
     actionButton(ns("confirm_selection"),
                  "Confirm"),
+    waiter::useWaiter(),
+
     br(),
     br(),
     br(),
     fluidRow(
       column(6,
-             gt::gt_output(ns("ep_table"))
+             waiter::withWaiter(
+               gt::gt_output(ns("ep_table")),
+               html = loading_screen
+             )
       ),
       column(6,
-             gt::gt_output(ns("not_owned_table"))
+             waiter::withWaiter(
+               gt::gt_output(ns("not_owned_table")),
+               html = loading_screen
+             )
       )
     )
   )
