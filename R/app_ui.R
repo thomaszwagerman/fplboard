@@ -38,7 +38,7 @@ app_ui <- function(request) {
         bslib::nav(
           "Mini-league Stats",
           mod_minileague_stats_ui("minileague_stats_1"),
-          align = "left"
+          align = "middle"
         )
       ),
       bslib::nav_menu(

@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_ep_team_ui <- function(id) {
+mod_ep_team_ui <- function(id, current_theme) {
   ns <- NS(id)
 
   tagList(
@@ -44,7 +44,7 @@ mod_ep_team_ui <- function(id) {
 #' ep_team Server Functions
 #'
 #' @noRd
-mod_ep_team_server <- function(id) {
+mod_ep_team_server <- function(id, current_theme) {
   moduleServer(id, function(input, output, session) {
     data_team <- reactive(
       get_ep_for_entrant(
@@ -95,6 +95,9 @@ mod_ep_team_server <- function(id) {
             subtitle = gt::md(paste0(
               "Players owned by ",team_name()
             ))
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
           )
       }
 
@@ -123,6 +126,9 @@ mod_ep_team_server <- function(id) {
             subtitle = gt::md(paste0(
               "Players not owned by ", team_name()
             ))
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
           )
       }
     })

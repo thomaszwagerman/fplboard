@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_ep_table_ui <- function(id) {
+mod_ep_table_ui <- function(id, current_theme) {
   ns <- NS(id)
 
   tagList(
@@ -21,15 +21,16 @@ mod_ep_table_ui <- function(id) {
     actionButton(ns("confirm_selection"),
                  "Confirm"),
 
-    tableOutput(ns("ep_table"))
+    tags$hr(),
 
+    gt::gt_output(ns("ep_table"))
   )
 }
 
 #' The ep_table Server Functions
 #'
 #' @noRd
-mod_ep_table_server <- function(id) {
+mod_ep_table_server <- function(id, current_theme) {
   moduleServer(id, function(input, output, session) {
     data <- reactive(
       get_ep_for_league(
@@ -38,11 +39,29 @@ mod_ep_table_server <- function(id) {
       )
     )
 
-    output$ep_table <- renderTable({
+    league_name <- reactive(
+      get_league_name(
+        input$league_number
+      )
+    )
+
+    output$ep_table <- gt::render_gt({
       if (input$confirm_selection == 0) {
         return()
       } else {
-        data()
+        data() |>
+          dplyr::select(
+            "Team" = .data$entry_name,
+            "Expected Points" = .data$expected_points_gw
+          ) |>
+          gt::gt() |>
+          gt::tab_header(
+            title =  gt::md("Expected Points this Gameweek"),
+            subtitle = gt::md(league_name())
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
+          )
       }
 
     })
