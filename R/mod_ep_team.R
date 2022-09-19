@@ -60,6 +60,12 @@ mod_ep_team_server <- function(id) {
       )
     )
 
+    team_name <- reactive(
+      fplscrapR::get_entry(
+        input$team_number
+      )$name
+    )
+
     output$ep_table <- gt::render_gt({
       if (input$confirm_selection == 0) {
         return()
@@ -83,6 +89,12 @@ mod_ep_team_server <- function(id) {
           gt::tab_row_group(
             label = "Starting 11",
             rows = c(1:11)
+          ) |>
+          gt::tab_header(
+            title =  gt::md("Expected Points"),
+            subtitle = gt::md(paste0(
+              "Players owned by ",team_name()
+            ))
           )
       }
 
@@ -105,6 +117,12 @@ mod_ep_team_server <- function(id) {
           gt::cols_label(
             team_code = "",
             photo = ""
+          ) |>
+          gt::tab_header(
+            title =  gt::md("Expected Points"),
+            subtitle = gt::md(paste0(
+              "Players not owned by ", team_name()
+            ))
           )
       }
     })
