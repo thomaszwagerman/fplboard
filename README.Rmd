@@ -37,6 +37,14 @@ remotes::install_github("thomaszwagerman/fplboard")
 library(fplboard)
 ```
 
+If you want to run the app locally, all you need to do is:
+
+```r
+devtools::load_all()
+
+run_app()
+```
+
 ## Examples
 
 This is a basic example which shows a function that return expected points table for a given team.

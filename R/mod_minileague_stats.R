@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_minileague_stats_ui <- function(id){
+mod_minileague_stats_ui <- function(id, current_theme){
   ns <- NS(id)
   tagList(
     textOutput(ns("gameweek_number"), inline = TRUE),
@@ -18,12 +18,18 @@ mod_minileague_stats_ui <- function(id){
     actionButton(ns("confirm_selection"),
                  "Confirm"),
     waiter::useWaiter(),
+    tags$hr(),
     fluidRow(
-      waiter::withWaiter(
-        gt::gt_output(ns("general_table")),
-        html = loading_screen
-      )
+      column(3),
+      column(6,
+             waiter::withWaiter(
+               gt::gt_output(ns("general_table")),
+               html = loading_screen
+             )
+      ),
+      column(3)
     ),
+    tags$hr(),
     fluidRow(
       column(4,
              waiter::withWaiter(
@@ -50,7 +56,7 @@ mod_minileague_stats_ui <- function(id){
 #' minileague_stats Server Functions
 #'
 #' @noRd
-mod_minileague_stats_server <- function(id){
+mod_minileague_stats_server <- function(id, current_theme){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -80,8 +86,8 @@ mod_minileague_stats_server <- function(id){
           ) |>
           gt::gt() |>
           # This is to get a green/red arrow on rank change
-          text_transform(
-            locations = cells_body(columns = c(rank_change)),
+          gt::text_transform(
+            locations = gt::cells_body(columns = c(rank_change)),
             fn = function(x){
 
               rank_change <- as.integer(x)
@@ -107,7 +113,11 @@ mod_minileague_stats_server <- function(id){
           gt::tab_header(
             title =  gt::md("League Standings and Overall Rank"),
             subtitle = gt::md(league_name())
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
           )
+
       }
     })
 
@@ -130,6 +140,9 @@ mod_minileague_stats_server <- function(id){
           gt::tab_header(
             title =  gt::md("Total points on the bench"),
             subtitle = gt::md(league_name())
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
           )
       }
     })
@@ -153,6 +166,9 @@ mod_minileague_stats_server <- function(id){
           gt::tab_header(
             title =  gt::md("Total team value"),
             subtitle = gt::md(league_name())
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
           )
       }
     })
@@ -176,6 +192,9 @@ mod_minileague_stats_server <- function(id){
           gt::tab_header(
             title =  gt::md("Points deducted for transfers"),
             subtitle = gt::md(league_name())
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
           )
       }
     })
