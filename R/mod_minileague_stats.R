@@ -18,9 +18,11 @@ mod_minileague_stats_ui <- function(id){
     actionButton(ns("confirm_selection"),
                  "Confirm"),
     waiter::useWaiter(),
-    waiter::withWaiter(
-      gt::gt_output(ns("general_table")),
-      html = loading_screen
+    fluidRow(
+      waiter::withWaiter(
+        gt::gt_output(ns("general_table")),
+        html = loading_screen
+      )
     ),
     fluidRow(
       column(4,
@@ -74,11 +76,33 @@ mod_minileague_stats_server <- function(id){
             "GW Points" = .data$points,
             "Total Points" = .data$total_points,
             "Overall Rank" = .data$overall_rank,
-            "arrow" = .data$rank_change
+            .data$rank_change
           ) |>
           gt::gt() |>
+          # This is to get a green/red arrow on rank change
+          text_transform(
+            locations = cells_body(columns = c(rank_change)),
+            fn = function(x){
+
+              rank_change <- as.integer(x)
+
+              choose_logo <-function(x){
+                if (x == 0){
+                  gt::html(fontawesome::fa("equals", fill = "#7A7A7A"))
+                } else if (x < 0){
+                  gt::html(glue::glue("<span style='color:#05FA87;font-face:bold;font-size:10px;'>{x*-1}</span>"),
+                           fontawesome::fa("arrow-up", fill = "#05FA87"))
+                } else if (x > 0) {
+                  gt::html(glue::glue("<span style='color:#FC2C80;font-face:bold;font-size:10px;'>{x}</span>"),
+                           fontawesome::fa("arrow-down", fill = "#FC2C80"))
+                }
+              }
+
+              lapply(rank_change, choose_logo)
+
+            }) |>
           gt::cols_label(
-            arrow = "",
+            rank_change = ""
           ) |>
           gt::tab_header(
             title =  gt::md("League Standings and Overall Rank"),
