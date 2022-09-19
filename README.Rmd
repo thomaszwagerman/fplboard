@@ -77,7 +77,7 @@ benchwarmers <- benchwarmers |>
 <p align="center"><img src="man/figures/benchwarmer_table.png"></p>
 
 
-Another bit of functionality is plotting minileague point over time, using `get_league_entries()` information:
+Another bit of functionality is plotting minileague point over time, using `fplscrapR::get_league_entries()` information:
 
 ``` {r point_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
 library(fplboard)
