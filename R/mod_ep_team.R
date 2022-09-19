@@ -19,11 +19,9 @@ mod_ep_team_ui <- function(id, current_theme) {
 
     actionButton(ns("confirm_selection"),
                  "Confirm"),
+    tags$hr(),
     waiter::useWaiter(),
 
-    br(),
-    br(),
-    br(),
     fluidRow(
       column(6,
              waiter::withWaiter(
