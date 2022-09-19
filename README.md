@@ -9,6 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test
 coverage](https://codecov.io/gh/thomaszwagerman/fplboard/branch/main/graph/badge.svg)](https://app.codecov.io/gh/thomaszwagerman/fplboard?branch=main)
+[![R-CMD-check](https://github.com/thomaszwagerman/fplboard/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thomaszwagerman/fplboard/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of fplboard is to create a dashboard to easily extract useful
@@ -32,6 +33,14 @@ remotes::install_github("thomaszwagerman/fplboard")
 library(fplboard)
 ```
 
+If you want to run the app locally, all you need to do is:
+
+``` r
+devtools::load_all()
+
+run_app()
+```
+
 ## Examples
 
 This is a basic example which shows a function that return expected
@@ -47,7 +56,7 @@ Let’s have a look at the table:
 </p>
 
 Another bit of functionality is plotting minileague point over time,
-using `get_league_entries()` information:
+using `fplscrapR::get_league_entries()` information:
 
 <img src="man/figures/README-point_plot-1.png" width="100%" />
 

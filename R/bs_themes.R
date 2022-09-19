@@ -6,17 +6,36 @@ light <- bslib::bs_theme(
     "Helvetica Neue",
     "Helvetica, sans-serif"),
   heading_font = bslib::font_google("Fira Sans"),
+  fg = "#76766f",
+  bg = "white",
   primary = "#37003c",
   secondary = "#00ff85"
 ) |>
-  bs_add_rules(
-    ".navbar-default {
-    background-color: #37003c !important;}"
-    )
+  # Bit of a workaround, manually setting
+  # the navbar header colour, and then all body text to be black
+  bslib::bs_add_rules(
+    ".navbar.navbar-default {
+    background-color: #37003c !important;}
 
+    .dropdown-menu {
+    background-color: #37003c;
+    color: #76766f;
+    }
 
-# light <- bslib::bs_add_rules(light, ".navbar-default {background-color: #37003c !important;}")
+    .dropdown-item, .dropdown-menu>li>a {
+    color: #76766f;
+    }
 
+    * {
+    color: black;
+    }
+
+    .form-control {
+    color: black;
+    border: 1px solid black;
+    }
+    "
+  )
 
 #' bs_themes for dark mode
 dark <- bslib::bs_theme(
@@ -24,6 +43,6 @@ dark <- bslib::bs_theme(
   heading_font = bslib::font_google("Fira Sans"),
   bg = "#37003c",
   fg = "white",
-  primary = "#e90052",
-  seconday = "#04f5ff"
+  primary = "#04f5ff",
+  seconday = "#e90052"
 )
