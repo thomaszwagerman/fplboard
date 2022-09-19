@@ -34,6 +34,11 @@ app_ui <- function(request) {
           "Current Team Expected Points",
           mod_ep_team_ui("ep_team_1"),
           align = "middle"
+        ),
+        bslib::nav(
+          "Mini-league Stats",
+          mod_minileague_stats_ui("minileague_stats_1"),
+          align = "left"
         )
       ),
       bslib::nav_menu(

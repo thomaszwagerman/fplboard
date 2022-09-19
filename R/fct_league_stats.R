@@ -63,7 +63,8 @@ get_league_bench_points <- function(league_number) {
     dplyr::group_by(.data$entry_name) |>
     dplyr::transmute(bench = sum(.data$points_on_bench)) |>
     unique() |>
-    dplyr::arrange(dplyr::desc(.data$bench))
+    dplyr::arrange(dplyr::desc(.data$bench)) |>
+    dplyr::ungroup()
 
   return(most_points_on_bench)
 }
@@ -89,7 +90,10 @@ get_league_team_value <- function(league_number) {
   highest_team_value <- everyones_points |>
     dplyr::filter(.data$event == get_current_gw_number()) |>
     dplyr::select(.data$entry_name, .data$value) |>
-    dplyr::arrange(dplyr::desc(.data$value))
+    dplyr::arrange(dplyr::desc(.data$value)) |>
+    dplyr::ungroup()
+
+  highest_team_value$value <- highest_team_value$value / 10
 
   return(highest_team_value)
 }
@@ -116,7 +120,8 @@ get_league_hits_taken <- function(league_number) {
     dplyr::group_by(.data$entry_name) |>
     dplyr::transmute(transfer_cost = sum(.data$event_transfers_cost)) |>
     unique() |>
-    dplyr::arrange(dplyr::desc(.data$transfer_cost))
+    dplyr::arrange(dplyr::desc(.data$transfer_cost)) |>
+    dplyr::ungroup()
 
   return(most_spent_on_transfers)
 }
