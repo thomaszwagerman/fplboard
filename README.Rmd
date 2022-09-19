@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test coverage](https://codecov.io/gh/thomaszwagerman/fplboard/branch/main/graph/badge.svg)](https://app.codecov.io/gh/thomaszwagerman/fplboard?branch=main)
+[![R-CMD-check](https://github.com/thomaszwagerman/fplboard/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thomaszwagerman/fplboard/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 
@@ -35,6 +36,14 @@ You can install the development version of fplboard like so:
 remotes::install_github("thomaszwagerman/fplboard")
 
 library(fplboard)
+```
+
+If you want to run the app locally, all you need to do is:
+
+```r
+devtools::load_all()
+
+run_app()
 ```
 
 ## Examples
@@ -77,7 +86,7 @@ benchwarmers <- benchwarmers |>
 <p align="center"><img src="man/figures/benchwarmer_table.png"></p>
 
 
-Another bit of functionality is plotting minileague point over time, using `get_league_entries()` information:
+Another bit of functionality is plotting minileague point over time, using `fplscrapR::get_league_entries()` information:
 
 ``` {r point_plot, fig.height = 8, fig.width = 16, echo = FALSE, warning = FALSE}
 library(fplboard)

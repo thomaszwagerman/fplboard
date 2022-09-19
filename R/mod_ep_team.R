@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_ep_team_ui <- function(id) {
+mod_ep_team_ui <- function(id, current_theme) {
   ns <- NS(id)
 
   tagList(
@@ -19,11 +19,9 @@ mod_ep_team_ui <- function(id) {
 
     actionButton(ns("confirm_selection"),
                  "Confirm"),
+    tags$hr(),
     waiter::useWaiter(),
 
-    br(),
-    br(),
-    br(),
     fluidRow(
       column(6,
              waiter::withWaiter(
@@ -44,7 +42,7 @@ mod_ep_team_ui <- function(id) {
 #' ep_team Server Functions
 #'
 #' @noRd
-mod_ep_team_server <- function(id) {
+mod_ep_team_server <- function(id, current_theme) {
   moduleServer(id, function(input, output, session) {
     data_team <- reactive(
       get_ep_for_entrant(
@@ -58,6 +56,12 @@ mod_ep_team_server <- function(id) {
         input$team_number,
         get_current_gw_number()
       )
+    )
+
+    team_name <- reactive(
+      fplscrapR::get_entry(
+        input$team_number
+      )$name
     )
 
     output$ep_table <- gt::render_gt({
@@ -83,6 +87,15 @@ mod_ep_team_server <- function(id) {
           gt::tab_row_group(
             label = "Starting 11",
             rows = c(1:11)
+          ) |>
+          gt::tab_header(
+            title =  gt::md("Expected Points"),
+            subtitle = gt::md(paste0(
+              "Players owned by ",team_name()
+            ))
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
           )
       }
 
@@ -105,6 +118,15 @@ mod_ep_team_server <- function(id) {
           gt::cols_label(
             team_code = "",
             photo = ""
+          ) |>
+          gt::tab_header(
+            title =  gt::md("Expected Points"),
+            subtitle = gt::md(paste0(
+              "Players not owned by ", team_name()
+            ))
+          ) |>
+          gt_table_theme(
+            current_theme = current_theme
           )
       }
     })

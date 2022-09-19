@@ -19,6 +19,7 @@ mod_plot_league_ui <- function(id) {
                 "Please enter your mini-league number."),
       actionButton(ns("confirm_selection"),
                    "Confirm"),
+      tags$hr(),
       waiter::withWaiter(
         plotOutput(ns("league_points")),
         html = loading_screen
