@@ -35,9 +35,7 @@ server <- function(input, output) {
     names_to = c("category", "opposition_strength"),
     names_pattern = "strength_(.*)_(.*)",
     values_to = "rating",
-  )
-
-  fdr <- fdr |>
+  ) |>
     dplyr::filter(rating > 999)
 
   # Join by the opposition and remove home-home, away-away matches
@@ -46,8 +44,6 @@ server <- function(input, output) {
   # Match the team's fixture to opposition strength
   fdr <- fdr |>
     filter(opposition_strength == team_fixture & team_fixture != oppo_fixture)
-
-  # fdr <- fdr[duplicated(fdr[c("team_fixture", "opposition_fixture"),]),]
 
   overall <- fdr |>
     dplyr::filter(category == "overall") |>
@@ -63,7 +59,7 @@ server <- function(input, output) {
 
   overall[is.na(overall$rating)] <- 0
 
-  test <- tidyr::pivot_wider(
+  table_by_gameweek <- tidyr::pivot_wider(
     overall,
     names_from = "GW",
     values_from = c("fixture", "rating")
@@ -77,7 +73,8 @@ server <- function(input, output) {
     gw_columns <- glue::glue("fixture_{gw_input}")
     rating_columns <- glue::glue("rating_{gw_input}")
 
-    totals <- test |>
+    # Create a totals column based on the number of gameweeks
+    totals <- table_by_gameweek |>
       dplyr::select(team, all_of(rating_columns)) |>
       tidyr::pivot_longer(
         cols = rating_columns,
@@ -91,6 +88,10 @@ server <- function(input, output) {
       group_by(team) |>
       summarise(total = sum(rating))
 
+    # Create a list of column definitions, as required
+    # by reactable
+    fpl_color_pal = c("#375523", "#01fc7a", "#808080", "#ff1751", "#80072d")
+
     team_list <- list(
       team = colDef(
         maxWidth = 175,
@@ -99,17 +100,21 @@ server <- function(input, output) {
       )
     )
 
-    column_groups <- lapply(gw_input, function(gw) {
-      colGroup(name = glue::glue("Gameweek {gw}"), columns = c(
-        glue::glue("fixture_{gw}"),
-        glue::glue("rating_{gw}")
-      )
+    rating_cols <- lapply(gw_input, function(gw) {
+      colDef(
+        maxWidth = 175,
+        style = color_scales(test,
+                             colors = fpl_color_pal)
       )
     })
+
+    # These need to be named lists!
+    names(rating_cols) <- rating_columns
 
     fixture_cols <- lapply(gw_input, function(gw) {
       colDef(
         style = color_scales(test,
+                             colors = fpl_color_pal,
                              color_by = glue::glue(
                                "rating_{gw}"
                              )
@@ -120,27 +125,28 @@ server <- function(input, output) {
 
     names(fixture_cols) <- gw_columns
 
-    # We'd like to hide these
-    rating_cols <- lapply(gw_input, function(gw) {
-      colDef(
-        maxWidth = 175,
-        style = color_scales(test)
-      )
-    })
-
-    names(rating_cols) <- rating_columns
-
     total_list <- list(
       total = colDef(
         maxWidth = 175
       )
     )
 
+    # Combine the lists into one list, and group them.
+    # This is so gw rating and fixture appear together
     table_list <- c(team_list, fixture_cols, rating_cols, total_list)
 
-    test <- left_join(test, totals)
+    column_groups <- lapply(gw_input, function(gw) {
+      colGroup(name = glue::glue("Gameweek {gw}"), columns = c(
+        glue::glue("fixture_{gw}"),
+        glue::glue("rating_{gw}")
+      )
+      )
+    })
 
-    table_df <- test |>
+    # Joining the totals, so  table can be sorted for selected GWs
+    table_by_gameweek <- left_join(table_by_gameweek, totals)
+
+    table_df <- table_by_gameweek |>
       select(team, all_of(gw_columns), total, all_of(rating_columns))
 
     reactable(
@@ -148,10 +154,9 @@ server <- function(input, output) {
       compact = TRUE,
       pagination = FALSE,
       showSortIcon = FALSE,
-
       columns = table_list,
       columnGroups = column_groups
     )
   })
 }
-  shinyApp(ui, server)
+shinyApp(ui, server)
