@@ -1,5 +1,7 @@
 library(shiny)
 library(reactable)
+library(reactablefmtr)
+library(fplscrapR)
 
 ui <- fluidPage(
   reactableOutput("table")
@@ -25,10 +27,12 @@ server <- function(input, output) {
   )  |>
     dplyr::select(GW, team, oppo, team_fixture = homeaway)
 
+  fixtures$oppo_fixture <- rev(fixtures$team_fixture)
+
   fdr <- tidyr::pivot_longer(
     fdr,
     cols = contains("strength"),
-    names_to = c("category", "opposition_fixture"),
+    names_to = c("category", "opposition_strength"),
     names_pattern = "strength_(.*)_(.*)",
     values_to = "rating",
   )
@@ -38,7 +42,12 @@ server <- function(input, output) {
 
   # Join by the opposition and remove home-home, away-away matches
   fdr <- dplyr::left_join(fixtures, fdr, by = c("oppo" = "short_name"))
-  fdr <- fdr[duplicated(fdr[c("team_fixture", "opposition_fixture"),]),]
+
+  # Match the team's fixture to opposition strength
+  fdr <- fdr |>
+    filter(opposition_strength == team_fixture & team_fixture != oppo_fixture)
+
+  # fdr <- fdr[duplicated(fdr[c("team_fixture", "opposition_fixture"),]),]
 
   overall <- fdr |>
     dplyr::filter(category == "overall") |>
@@ -62,7 +71,7 @@ server <- function(input, output) {
 
   output$table <- renderReactable({
     gw_input <- c(
-      c(9:13)
+      c(9:16)
     )
 
     gw_columns <- glue::glue("fixture_{gw_input}")
@@ -144,5 +153,5 @@ server <- function(input, output) {
       columnGroups = column_groups
     )
   })
-
+}
   shinyApp(ui, server)
