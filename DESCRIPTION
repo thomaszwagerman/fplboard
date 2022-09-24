@@ -12,6 +12,7 @@ Imports:
     fplscrapR (>= 0.2.6),
     ggplot2,
     ggrepel,
+    glue,
     golem (>= 0.3.3),
     gt,
     gtExtras,
