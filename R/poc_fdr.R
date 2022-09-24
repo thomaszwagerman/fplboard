@@ -12,181 +12,26 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-
-  fdr <- fplscrapR::get_fdr() |>
-    dplyr::select(short_name, contains("strength"))
-
-  fixtures <- fplscrapR::get_game_list() |>
-    dplyr::filter(GW > get_current_gw_number())
-
-  fixtures <- rbind(
-    fixtures |>
-      dplyr::mutate(team = home,
-                    oppo = away,
-                    homeaway = "home"),
-    fixtures |>
-      dplyr::mutate(team = away,
-                    oppo = home,
-                    homeaway = "away")
-  )  |>
-    dplyr::select(GW, team, oppo, team_fixture = homeaway)
-
-  fixtures$oppo_fixture <- rev(fixtures$team_fixture)
-
-  fdr <- tidyr::pivot_longer(
-    fdr,
-    cols = contains("strength"),
-    names_to = c("category", "opposition_strength"),
-    names_pattern = "strength_(.*)_(.*)",
-    values_to = "rating",
-  ) |>
-    dplyr::filter(rating > 999)
-
-  # Join by the opposition and remove home-home, away-away matches
-  fdr <- dplyr::left_join(fixtures, fdr, by = c("oppo" = "short_name"))
-
-  # Match the team's fixture to opposition strength
-  fdr <- fdr |>
-    dplyr::filter(opposition_strength == team_fixture & team_fixture != oppo_fixture)
-
-  overall <- fdr |>
-    dplyr::filter(category == "overall") |>
-    dplyr::select(GW, team, oppo, team_fixture, rating) |>
-    tidyr::unite(
-      col = "fixture",
-      3:4,
-      sep = " "
-    )
-
-  overall$fixture <- gsub("home", "(H)", overall$fixture)
-  overall$fixture <- gsub("away", "(A)", overall$fixture)
-
-  overall[is.na(overall$rating)] <- 0
-
-  table_by_gameweek <- tidyr::pivot_wider(
-    overall,
-    names_from = "GW",
-    values_from = c("fixture", "rating")
-  )
-
-  gw_input <- reactive({
-    gw_input <- c(min(input$gw):max(input$gw))
+  fdr_df <- reactive({
+    get_fdr_for_selected_gameweek(input$gw)
   })
 
-  gw_columns <- reactive({
-    gw_columns <- paste0(
-      "fixture_",
-      c(min(input$gw):max(input$gw))
-    )
+  fdr_column_list <- reactive({
+    get_rct_columns(fdr_df(), input$gw)
   })
 
-  rating_columns <- reactive({
-    rating_columns <- paste0(
-      "rating_",
-      c(min(input$gw):max(input$gw))
-    )
-  })
-
-  # Create a totals column based on the number of gameweeks
-  totals <- reactive({
-    totals <- table_by_gameweek |>
-      dplyr::select(team, all_of(rating_columns())) |>
-      tidyr::pivot_longer(
-        cols = rating_columns(),
-        names_to = "gw",
-        values_to = "rating"
-      )
-  })
-
-  avgs <- reactive({
-    avgs <- totals() |>
-      dplyr::group_by(team) |>
-      dplyr::filter(rating > 0) |>
-      dplyr::summarise(average_fdr = sum(rating, na.rm = TRUE) / length(rating))
-
-    avgs$average_fdr <- as.integer(avgs$average_fdr)
-
-    avgs
-  })
-
-  table_df <- reactive({
-    # Joining the totals, so  table can be sorted for selected GWs
-    table_by_gameweek <- dplyr::left_join(table_by_gameweek, avgs())
-
-    table_df <- table_by_gameweek |>
-      dplyr::select(team, dplyr::all_of(gw_columns()), average_fdr, dplyr::all_of(rating_columns()))
-  })
-
-  # Create a list of column definitions, as required
-  # by reactable
-  fpl_color_pal = c("#375523", "#01fc7a", "#808080", "#ff1751", "#80072d")
-
-  table_list <- reactive({
-
-    team_list <- list(
-      team = colDef(
-        maxWidth = 175,
-        align = 'left',
-        show = TRUE
-      )
-    )
-
-    rating_cols <- lapply(gw_input(), function(gw) {
-      colDef(
-        maxWidth = 175,
-        style = color_scales(table_df(),
-                             colors = fpl_color_pal)
-      )
-    })
-
-    # These need to be named lists!
-    names(rating_cols) <- rating_columns()
-
-    fixture_cols <- lapply(rating_columns(), function(gw) {
-      colDef(
-        style = color_scales(table_df(),
-                             colors = fpl_color_pal,
-                             color_by = gw
-        ),
-        sortable = FALSE
-      )
-    })
-
-    names(fixture_cols) <- gw_columns()
-
-    avg_fdr_list <- list(
-      average_fdr = colDef(
-        maxWidth = 175,
-        style = color_scales(
-          table_df(),
-          colors = fpl_color_pal
-        )
-      )
-    )
-
-    # Combine the lists into one list, and group them.
-    # This is so gw rating and fixture appear together
-    table_list <- c(team_list, fixture_cols, rating_cols, avg_fdr_list)
-  })
-
-  column_groups <- reactive({
-    column_groups <- lapply(gw_input(), function(gw) {
-      colGroup(name = glue::glue("Gameweek {gw}"), columns = c(
-        glue::glue("fixture_{gw}"),
-        glue::glue("rating_{gw}")
-      )
-      )
-    })
+  fdr_column_groups <- reactive({
+    get_rct_groups(input$gw)
   })
 
   output$table <- renderReactable({
     reactable(
-      table_df(),
+      fdr_df(),
       compact = TRUE,
       pagination = FALSE,
       showSortIcon = FALSE,
-      columns = table_list(),
-      columnGroups = column_groups()
+      columns = fdr_column_list(),
+      columnGroups = fdr_column_groups()
     )
   })
 }
