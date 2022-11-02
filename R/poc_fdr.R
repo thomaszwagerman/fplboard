@@ -40,7 +40,8 @@ server <- function(input, output) {
       pagination = FALSE,
       showSortIcon = FALSE,
       columns = fdr_column_list(),
-      columnGroups = fdr_column_groups()
+      columnGroups = fdr_column_groups(),
+      theme = reactable_table_theme("dark")
     )
   })
 }

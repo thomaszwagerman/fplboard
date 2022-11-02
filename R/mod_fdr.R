@@ -63,8 +63,10 @@ mod_fdr_server <- function(id, current_theme) {
         pagination = FALSE,
         showSortIcon = FALSE,
         columns = fdr_column_list(),
-        columnGroups = fdr_column_groups()
-      )
+        columnGroups = fdr_column_groups(),
+        theme = reactable_table_theme(current_theme)
+      ) |>
+        reactablefmtr::google_font("Fira Sans")
     })
   })
 }

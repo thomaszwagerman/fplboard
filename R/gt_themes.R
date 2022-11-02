@@ -1,8 +1,7 @@
 #' Getting a gt table theme according to light/darkmode
 #'
-#' @description This function returns a table of
-#' general information for a minileague. Automatically return a
-#' table for the current gameweek.
+#' @description This function returns a gt table theme depending on whether
+#' the app is in light or dark more
 #'
 #' @param data the gt table object
 #' @param current_theme the theme is format "dark" or "light"
