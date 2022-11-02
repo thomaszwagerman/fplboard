@@ -56,7 +56,7 @@ mod_fdr_server <- function(id, current_theme) {
       get_rct_groups(input$gw)
     })
 
-    output$table <- renderReactable({
+    output$table <- reactable::renderReactable({
       reactable::reactable(
         fdr_df(),
         compact = TRUE,

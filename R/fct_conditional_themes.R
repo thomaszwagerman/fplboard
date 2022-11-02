@@ -4,12 +4,9 @@
 #' general information for a minileague. Automatically return a
 #' table for the current gameweek.
 #'
-#' @param data the reactable table object
 #' @param current_theme the theme is format "dark" or "light"
 #'
 #' @export
-#'
-#' @examples
 #'
 reactable_table_theme <- function(current_theme) {
   if (current_theme() == "dark") {
@@ -42,8 +39,6 @@ reactable_table_theme <- function(current_theme) {
 #' @param current_theme the theme is format "dark" or "light"
 #'
 #' @export
-#'
-#' @examples
 #'
 gt_table_theme <- function(data, current_theme) {
   if (current_theme() == "dark") {

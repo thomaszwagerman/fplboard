@@ -12,7 +12,7 @@
 #' @importFrom rlang .data
 get_fdr_by_gameweek <- function() {
   fdr <- fplscrapR::get_fdr() |>
-    dplyr::select(.data$short_name, contains("strength"))
+    dplyr::select(.data$short_name, dplyr::contains("strength"))
 
   fixtures <- fplscrapR::get_game_list() |>
     dplyr::filter(.data$GW > get_current_gw_number())
@@ -38,7 +38,7 @@ get_fdr_by_gameweek <- function() {
 
   fdr <- tidyr::pivot_longer(
     fdr,
-    cols = contains("strength"),
+    cols = dplyr::contains("strength"),
     names_to = c("category", "opposition_strength"),
     names_pattern = "strength_(.*)_(.*)",
     values_to = "rating",
@@ -51,7 +51,7 @@ get_fdr_by_gameweek <- function() {
   # Match the team's fixture to opposition strength
   fdr <- fdr |>
     dplyr::filter(
-      opposition_strength == .data$team_fixture &
+      .data$opposition_strength == .data$team_fixture &
         .data$team_fixture != .data$oppo_fixture)
 
   difficulty_options <- c(
@@ -94,26 +94,22 @@ get_fdr_by_gameweek <- function() {
 #'
 #' @description This function combines the fixtures and fdr ratings to get
 #' a table by gameweek, and then select specific columns for gameweeks specified.
-#' If you want the table to be update according to user intput, these shuld be reactive
+#' If you want the table to be update according to user input, these should be reactive
+#'
+#' @param input_gw the gameweeks you want the fdr table for
+#' @param input_type one of "overall", "attack", "defence". Defaults to "overall"
 #'
 #' @examples
-#'gw_columns <- paste0(
-#'  "fixture_",
-#'  c(30:35)
-#')
-#'  rating_columns <- paste0(
-#'    "rating_",
-#'    c(30:35)
-#'  )
+#' gw_columns <- c(30:35)
+#' input_type <- "attack"
 #'
-#' get_fdr_for_selected_gameweek()
+#' get_fdr_for_selected_gameweek(gw_columns, input_type)
 #'
 #'
 #' @export
 #'
 #' @importFrom rlang .data
-# Create a reactive table with the gameweek and rating columns needed
-get_fdr_for_selected_gameweek <- function(input_gw, input_type) {
+get_fdr_for_selected_gameweek <- function(input_gw, input_type = "overall") {
   gw_columns <- paste0(
     "fixture_",
     c(min(input_gw):max(input_gw))

@@ -33,10 +33,13 @@ RoxygenNote: 7.2.1
 Suggests: 
     covr,
     knitr,
+    reactable,
+    reactablefmtr,
     rmarkdown,
     shinytest2,
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tidyr
 Config/testthat/edition: 3
 Language: en-US
 URL: https://github.com/thomaszwagerman/fplboard

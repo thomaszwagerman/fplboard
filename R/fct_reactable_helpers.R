@@ -2,12 +2,12 @@
 #'
 #' @description Returning a list of column definitions for a reactable table.
 #'
-#' @examples
+#' @param fdr_selected_gameweek the fdr_selected_gameweek() functions
+#' @param input_gw the gameweek provided by user selection
 #'
 #' @export
 #'
 #' @importFrom rlang .data
-# Create a a list of columns needed for reactable
 get_rct_columns <- function(fdr_selected_gameweek, input_gw) {
   gw_columns <- paste0(
     "fixture_",
@@ -24,7 +24,7 @@ get_rct_columns <- function(fdr_selected_gameweek, input_gw) {
   fpl_color_pal = c("#375523", "#01fc7a", "#808080", "#ff1751", "#80072d")
 
   team_list <- list(
-    team = colDef(
+    team = reactable::colDef(
       maxWidth = 175,
       align = 'left',
       show = TRUE
@@ -32,9 +32,9 @@ get_rct_columns <- function(fdr_selected_gameweek, input_gw) {
   )
 
   rating_cols <- lapply(gw_input, function(gw) {
-    colDef(
+    reactable::colDef(
       maxWidth = 175,
-      style = color_scales(fdr_selected_gameweek,
+      style = reactablefmtr::color_scales(fdr_selected_gameweek,
                            colors = fpl_color_pal)
     )
   })
@@ -43,8 +43,8 @@ get_rct_columns <- function(fdr_selected_gameweek, input_gw) {
   names(rating_cols) <- rating_columns
 
   fixture_cols <- lapply(rating_columns, function(gw) {
-    colDef(
-      style = color_scales(fdr_selected_gameweek,
+    reactable::colDef(
+      style = reactablefmtr::color_scales(fdr_selected_gameweek,
                            colors = fpl_color_pal,
                            color_by = gw
       ),
@@ -55,9 +55,9 @@ get_rct_columns <- function(fdr_selected_gameweek, input_gw) {
   names(fixture_cols) <- gw_columns
 
   avg_fdr_list <- list(
-    average_fdr = colDef(
+    average_fdr = reactable::colDef(
       maxWidth = 175,
-      style = color_scales(
+      style = reactablefmtr::color_scales(
         fdr_selected_gameweek,
         colors = fpl_color_pal
       )
@@ -75,7 +75,7 @@ get_rct_columns <- function(fdr_selected_gameweek, input_gw) {
 #'
 #' @description Returning a list of column groups for a reactable table.
 #'
-#' @examples
+#' @param input_gw the gameweek provided by user selection
 #'
 #' @export
 #'
@@ -85,7 +85,7 @@ get_rct_groups <- function(input_gw) {
   gw_input <- c(min(input_gw):max(input_gw))
 
   column_groups <- lapply(gw_input, function(gw) {
-    colGroup(name = glue::glue("Gameweek {gw}"),
+    reactable::colGroup(name = glue::glue("Gameweek {gw}"),
              columns = c(
                glue::glue("fixture_{gw}"),
                glue::glue("rating_{gw}")
