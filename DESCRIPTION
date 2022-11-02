@@ -12,6 +12,7 @@ Imports:
     fplscrapR (>= 0.2.6),
     ggplot2,
     ggrepel,
+    glue,
     golem (>= 0.3.3),
     gt,
     gtExtras,
@@ -32,10 +33,13 @@ RoxygenNote: 7.2.1
 Suggests: 
     covr,
     knitr,
+    reactable,
+    reactablefmtr,
     rmarkdown,
     shinytest2,
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tidyr
 Config/testthat/edition: 3
 Language: en-US
 URL: https://github.com/thomaszwagerman/fplboard
