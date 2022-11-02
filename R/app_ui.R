@@ -21,18 +21,23 @@ app_ui <- function(request) {
         align = "middle"
       ),
       bslib::nav_menu(
-        "Past",
+        "Team",
         bslib::nav(
-          "Mini-league Standings",
-          mod_plot_league_ui("plot_league_1"),
+          "Current Team Expected Points",
+          mod_ep_team_ui("ep_team_1"),
           align = "middle"
         )
       ),
       bslib::nav_menu(
-        "Present",
+        "Mini-Leagues",
         bslib::nav(
-          "Current Team Expected Points",
-          mod_ep_team_ui("ep_team_1"),
+          "Mini-league Standings",
+          mod_plot_league_ui("plot_league_1"),
+          align = "middle"
+        ),
+        bslib::nav(
+          "Mini-league Expected Points",
+          mod_ep_table_ui("ep_table_1"),
           align = "middle"
         ),
         bslib::nav(
@@ -42,12 +47,7 @@ app_ui <- function(request) {
         )
       ),
       bslib::nav_menu(
-        "Future",
-        bslib::nav(
-          "Mini-league Expected Points",
-          mod_ep_table_ui("ep_table_1"),
-          align = "middle"
-        ),
+        "Decision-making Tools",
         bslib::nav(
           "Fixture Difficulty Rating",
           mod_fdr_ui("fdr_1"),
