@@ -39,7 +39,7 @@ server <- function(input, output) {
       compact = TRUE,
       pagination = FALSE,
       showSortIcon = FALSE,
-      #columns = fdr_column_list(),
+      columns = fdr_column_list(),
       columnGroups = fdr_column_groups()
     )
   })

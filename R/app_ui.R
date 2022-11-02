@@ -47,7 +47,12 @@ app_ui <- function(request) {
           "Mini-league Expected Points",
           mod_ep_table_ui("ep_table_1"),
           align = "middle"
-        )
+        ),
+        bslib::nav(
+          "Fixture Difficulty Rating",
+          mod_fdr_ui("fdr_1"),
+          align = "middle"
+        ),
       ),
       bslib::nav(
         "About",
