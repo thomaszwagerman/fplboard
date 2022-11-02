@@ -66,6 +66,7 @@ get_rct_columns <- function(fdr_selected_gameweek, input_gw) {
 
   # Combine the lists into one list, and group them.
   # This is so gw rating and fixture appear together
+  table_list <- list()
   table_list <- c(team_list, fixture_cols, rating_cols, avg_fdr_list)
 
 }

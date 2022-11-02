@@ -4,6 +4,15 @@ library(reactablefmtr)
 library(fplscrapR)
 
 ui <- fluidPage(
+  selectInput("type",
+              "Select type of difficulty",
+              choices = c(
+                "overall",
+                "attack",
+                "defence"
+              ),
+              selected = "overall"
+  ),
   sliderInput("gw", "Select gameweek range: ",
               min = get_current_gw_number(), max = 36,
               value = c(get_current_gw_number()+1, get_current_gw_number() + 5), step = 1,
@@ -13,7 +22,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   fdr_df <- reactive({
-    get_fdr_for_selected_gameweek(input$gw)
+    get_fdr_for_selected_gameweek(input$gw, input$type)
   })
 
   fdr_column_list <- reactive({
@@ -30,7 +39,7 @@ server <- function(input, output) {
       compact = TRUE,
       pagination = FALSE,
       showSortIcon = FALSE,
-      columns = fdr_column_list(),
+      #columns = fdr_column_list(),
       columnGroups = fdr_column_groups()
     )
   })

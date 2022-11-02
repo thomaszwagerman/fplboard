@@ -54,32 +54,40 @@ get_fdr_by_gameweek <- function() {
       opposition_strength == .data$team_fixture &
         .data$team_fixture != .data$oppo_fixture)
 
-  overall <- fdr |>
-    dplyr::filter(.data$category == "overall") |>
-    dplyr::select(
-      .data$GW,
-      .data$team,
-      .data$oppo,
-      .data$team_fixture,
-      .data$rating) |>
-    tidyr::unite(
-      col = "fixture",
-      3:4,
-      sep = " "
-    )
-
-  overall$fixture <- gsub("home", "(H)", overall$fixture)
-  overall$fixture <- gsub("away", "(A)", overall$fixture)
-
-  overall[is.na(overall$rating)] <- 0
-
-  table_by_gameweek <- tidyr::pivot_wider(
-    overall,
-    names_from = "GW",
-    values_from = c("fixture", "rating")
+  difficulty_options <- c(
+    "overall", "attack", "defence"
   )
 
-  return(table_by_gameweek)
+  tables_by_gameweek <- lapply(difficulty_options, function(input_type) {
+    overall <- fdr |>
+      dplyr::filter(.data$category == input_type) |>
+      dplyr::select(
+        .data$GW,
+        .data$team,
+        .data$oppo,
+        .data$team_fixture,
+        .data$rating) |>
+      tidyr::unite(
+        col = "fixture",
+        3:4,
+        sep = " "
+      )
+
+    overall$fixture <- gsub("home", "(H)", overall$fixture)
+    overall$fixture <- gsub("away", "(A)", overall$fixture)
+
+    overall[is.na(overall$rating)] <- 0
+
+    table_by_gameweek <- tidyr::pivot_wider(
+      overall,
+      names_from = "GW",
+      values_from = c("fixture", "rating")
+    )
+  })
+
+  names(tables_by_gameweek) <- difficulty_options
+
+  return(tables_by_gameweek)
 }
 
 #' Getting fdr table by specific gameweeks
@@ -105,18 +113,18 @@ get_fdr_by_gameweek <- function() {
 #'
 #' @importFrom rlang .data
 # Create a reactive table with the gameweek and rating columns needed
-get_fdr_for_selected_gameweek <- function(input_gw) {
-    gw_columns <- paste0(
-      "fixture_",
-      c(min(input_gw):max(input_gw))
-    )
+get_fdr_for_selected_gameweek <- function(input_gw, input_type) {
+  gw_columns <- paste0(
+    "fixture_",
+    c(min(input_gw):max(input_gw))
+  )
 
-    rating_columns <- paste0(
-      "rating_",
-      c(min(input_gw):max(input_gw))
-    )
+  rating_columns <- paste0(
+    "rating_",
+    c(min(input_gw):max(input_gw))
+  )
 
-  totals <- get_fdr_by_gameweek() |>
+  totals <- get_fdr_by_gameweek()[[input_type]] |>
     dplyr::select(
       .data$team,
       dplyr::all_of(rating_columns)
@@ -137,7 +145,7 @@ get_fdr_for_selected_gameweek <- function(input_gw) {
   avgs$average_fdr <- as.integer(avgs$average_fdr)
 
   # Joining the totals, so  table can be sorted for selected GWs
-  table_by_gameweek <- dplyr::left_join(get_fdr_by_gameweek(), avgs)
+  table_by_gameweek <- dplyr::left_join(get_fdr_by_gameweek()[[input_type]], avgs)
 
   table_df <- table_by_gameweek |>
     dplyr::select(
