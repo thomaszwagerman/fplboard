@@ -99,8 +99,17 @@ plot_starting_eleven <- function(entrant_number, gameweeks) {
     ) +
     ggplot2::labs(
       x = NULL,
-      title = "Starting lineup",
+      title = paste(
+        "Starting lineup for",
+        fplscrapR::get_entry(entrant_number)$name,
+        "for GW",
+        min(gameweeks),
+        "-",
+        max(gameweeks)
+        ),
       caption = "\nSource: \nfplscrapR"
     )
+
+  return(starting_eleven_plot)
 
 }

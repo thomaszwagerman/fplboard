@@ -26,6 +26,11 @@ app_ui <- function(request) {
           "Current Team Expected Points",
           mod_ep_team_ui("ep_team_1"),
           align = "middle"
+        ),
+        bslib::nav(
+          "Players Owned",
+          mod_players_owned_ui("players_owned_1"),
+          align = "middle"
         )
       ),
       bslib::nav_menu(
