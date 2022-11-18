@@ -6,7 +6,7 @@
 #' @param entrant_number the entrant number you want a table for
 #' @param gameweeks gameweeks data should be fetched for
 #'
-#'  @export
+#' @export
 #'
 #' @examples
 #' # Getting the expected point for my team in GW1
