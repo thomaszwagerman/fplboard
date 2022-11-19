@@ -11,38 +11,35 @@ mod_players_owned_ui <- function(id){
   ns <- NS(id)
   tagList(
 
-    tagList(
-      waiter::useWaiter(),
-      textOutput(ns("gameweek_number"), inline = TRUE),
+    waiter::useWaiter(),
+    textOutput(ns("gameweek_number"), inline = TRUE),
 
-      textInput(ns("team_number"),
-                "Please enter your team number."),
+    textInput(ns("team_number"),
+              "Please enter your team number."),
 
-      sliderInput(ns("gw"),
-                  "Select gameweek range: ",
-                  min = 1, max = get_current_gw_number(),
-                  value = c(
-                    1,
-                    get_current_gw_number()
-                  ),
-                  step = 1,
-                  round = TRUE
-      ),
+    sliderInput(ns("gw"),
+                "Select gameweek range: ",
+                min = 1, max = get_current_gw_number(),
+                value = c(
+                  1,
+                  get_current_gw_number()
+                ),
+                step = 1,
+                round = TRUE
+    ),
 
-      actionButton(ns("confirm_selection"),
-                   "Confirm"),
+    actionButton(ns("confirm_selection"),
+                 "Confirm"),
 
-      tags$hr(),
+    tags$hr(),
 
-      waiter::withWaiter(
-        plotOutput(ns("plot_players_owned")),
-        html = loading_screen
-      ),
-      waiter::withWaiter(
-        plotOutput(ns("plot_starting_eleven")),
-        html = loading_screen
-      )
-
+    waiter::withWaiter(
+      plotOutput(ns("plot_players_owned")),
+      html = loading_screen
+    ),
+    waiter::withWaiter(
+      plotOutput(ns("plot_starting_eleven")),
+      html = loading_screen
     )
 
   )
