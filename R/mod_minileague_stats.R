@@ -10,6 +10,8 @@
 mod_minileague_stats_ui <- function(id, current_theme){
   ns <- NS(id)
   tagList(
+    waiter::useWaiter(),
+
     textOutput(ns("gameweek_number"), inline = TRUE),
 
     textInput(ns("league_number"),
@@ -17,38 +19,27 @@ mod_minileague_stats_ui <- function(id, current_theme){
 
     actionButton(ns("confirm_selection"),
                  "Confirm"),
-    waiter::useWaiter(),
+
     tags$hr(),
-    fluidRow(
-      column(3),
-      column(6,
-             waiter::withWaiter(
-               gt::gt_output(ns("general_table")),
-               html = loading_screen
-             )
-      ),
-      column(3)
+
+    waiter::withWaiter(
+      gt::gt_output(ns("general_table")),
+      html = loading_screen
     ),
-    tags$hr(),
-    fluidRow(
-      column(4,
-             waiter::withWaiter(
-               gt::gt_output(ns("bench_table")),
-               html = loading_screen
-             )
-      ),
-      column(4,
-             waiter::withWaiter(
-               gt::gt_output(ns("value_table")),
-               html = loading_screen
-             )
-      ),
-      column(4,
-             waiter::withWaiter(
-               gt::gt_output(ns("hits_table")),
-               html = loading_screen
-             )
-      )
+
+    waiter::withWaiter(
+      gt::gt_output(ns("bench_table")),
+      html = loading_screen
+    ),
+
+    waiter::withWaiter(
+      gt::gt_output(ns("value_table")),
+      html = loading_screen
+    ),
+
+    waiter::withWaiter(
+      gt::gt_output(ns("hits_table")),
+      html = loading_screen
     )
   )
 }
@@ -87,7 +78,7 @@ mod_minileague_stats_server <- function(id, current_theme){
           gt::gt() |>
           # This is to get a green/red arrow on rank change
           gt::text_transform(
-            locations = gt::cells_body(columns = c(rank_change)),
+            locations = gt::cells_body(columns = c(.data$rank_change)),
             fn = function(x){
 
               rank_change <- as.integer(x)

@@ -10,17 +10,20 @@ knitr::opts_chunk$set(echo = TRUE)
 # What is fplboard?
 The goal of fplboard is to provide a simple dashboard to visualise FPL's data.
 
-## Past, Present & Future
-
 The dashboard has been divided up into three categories:
 
-**The Past:** here you can look at your team's or mini-league's past performance. Who gained the most captaincy points (TBC), who left the most points on the bench, and who was the most improved?
+## **My Team**
 
-**The Present:** look at the state of your team. How many expected points will you get this gameweek, and are there any players not currently in your team who will do better?
+Here you can look at the state of your team. How have you performed, and what are your expected points for future gameweeks? Which players with high expected points are not in your team? 
 
-**The Future:** plan your next moves, using expected points. Spy on your mini-league rivals, are any of them expected to gain more points than you this gameweek?
+## **Mini-Leagues** 
 
-## Getting started with fplboard
+Examine the state of your mini-league. How has the competition shaped up over the weeks? Who can you slate for having left the most points of the bench, and who has taken the most hits? Spy on your mini-league rivals, are any of them expected to gain more points than you this gameweek?
+
+## **Decision-making Tools** 
+Plan your next moves, using realtime FPL data. Who has the kindest fixture runs?
+
+# Getting started with fplboard
 
 To get started with fplboard you'll need a couple of things: the team number of the team you are interested in, and the minileague number of the minileague you're interested in.
 

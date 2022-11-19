@@ -10,9 +10,8 @@
 mod_plot_league_ui <- function(id) {
   ns <- NS(id)
   tagList(
-
-    tagList(
       waiter::useWaiter(),
+
       textOutput(ns("gameweek_number"), inline = TRUE),
 
       textInput(ns("league_number"),
@@ -28,9 +27,6 @@ mod_plot_league_ui <- function(id) {
         plotOutput(ns("league_rank")),
         html = loading_screen
       )
-
-    )
-
   )
 }
 
