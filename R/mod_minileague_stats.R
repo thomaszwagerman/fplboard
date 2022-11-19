@@ -78,7 +78,7 @@ mod_minileague_stats_server <- function(id, current_theme){
           gt::gt() |>
           # This is to get a green/red arrow on rank change
           gt::text_transform(
-            locations = gt::cells_body(columns = c(rank_change)),
+            locations = gt::cells_body(columns = c(.data$rank_change)),
             fn = function(x){
 
               rank_change <- as.integer(x)

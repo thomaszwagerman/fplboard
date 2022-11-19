@@ -6,16 +6,18 @@
 #' @param gameweeks the gameweeks you want to plot for
 #'
 #' @export
+#'
+#' @examples
 #' # Getting players owned for my team across gameweeks
-#' plot_players_owned(9680)
+#' plot_players_owned(9680, c(1:16))
 #'
 #' @importFrom rlang .data
 plot_players_owned <- function(entrant_number, gameweeks) {
   entrant_picks <- get_players_owned(entrant_number, gameweeks)
 
   player_plot <- ggplot2::ggplot(entrant_picks, ggplot2::aes(
-    x = gameweek,
-    y = reorder(link_to_img(photo), n_gameweeks_owned)
+    x = .data$gameweek,
+    y = stats::reorder(link_to_img(.data$photo), .data$n_gameweeks_owned)
   )) +
     viridis::scale_color_viridis(discrete = TRUE) +
     ggplot2::geom_tile() +
@@ -66,21 +68,23 @@ plot_players_owned <- function(entrant_number, gameweeks) {
 #' @param gameweeks the gameweeks you want to plot for
 #'
 #' @export
+#'
+#' @examples
 #' # Getting players owned for my team across gameweeks
-#' plot_starting_eleven(9680)
+#' plot_starting_eleven(9680, c(1:16))
 #'
 #' @importFrom rlang .data
 plot_starting_eleven <- function(entrant_number, gameweeks) {
   entrant_picks <- get_players_owned(entrant_number, gameweeks)
 
   starting_eleven_plot <- ggplot2::ggplot(entrant_picks, ggplot2::aes(
-    x = gameweek,
-    y = reorder(position, -position)
+    x = .data$gameweek,
+    y = stats::reorder(.data$position, -.data$position)
   )) +
     # viridis::scale_color_viridis(discrete = TRUE) +
     ggplot2::geom_point() +
     ggimage::geom_image(
-      ggplot2::aes(image = photo)
+      ggplot2::aes(image = .data$photo)
     ) +
     ggplot2::geom_hline(
       ggplot2::aes(yintercept = 4.5, colour = "red")
