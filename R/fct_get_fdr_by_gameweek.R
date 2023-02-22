@@ -98,8 +98,8 @@ get_fdr_by_gameweek <- function() {
       return(averaged[[varname]])
     })
 
-    ratings_averaged <- dplyr::bind_cols(test)
-    colnames(ratings_averaged) <- paste0("rating_", unique(fdr$GW))
+    names(list_averaged) <- paste0("rating_", unique(fdr$GW))
+    ratings_averaged <- dplyr::bind_cols(list_averaged)
 
     table_by_gameweek[names(ratings_averaged)] <- ratings_averaged
 
