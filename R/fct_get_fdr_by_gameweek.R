@@ -81,8 +81,33 @@ get_fdr_by_gameweek <- function() {
     table_by_gameweek <- tidyr::pivot_wider(
       overall,
       names_from = "GW",
-      values_from = c("fixture", "rating")
+      values_from = c("fixture", "rating"),
+      values_fn = function(x) paste(x, collapse=", ")
     )
+
+    # Taking an average rating for double Gws
+    list_averaged <- lapply(unique(fdr$GW), function(n) {
+      varname <- paste0("rating_", n)
+      # Only do this if double gameweeks occur, ie ratings are longer than 4 characters
+      if(max(nchar(table_by_gameweek[[varname]], keepNA = FALSE)) > 4) {
+        averaged <- table_by_gameweek |>
+          tidyr::separate(col = varname, sep = ",", into = c("min", "max")) |>
+          dplyr::mutate(
+            max = as.numeric(ifelse(is.na(max), min, max)),
+            min = as.numeric(min),
+            "rating_{n}" := round((min + max)/2)
+          )
+        return(averaged[[varname]])
+      }
+    })
+
+    names(list_averaged) <- paste0("rating_", unique(fdr$GW))
+    ratings_averaged <- dplyr::bind_cols(list_averaged) |>
+      dplyr::mutate(dplyr::across(dplyr::everything(), as.character))
+
+    table_by_gameweek[names(ratings_averaged)] <- ratings_averaged
+
+    return(table_by_gameweek)
   })
 
   names(tables_by_gameweek) <- difficulty_options
@@ -126,7 +151,7 @@ get_fdr_for_selected_gameweek <- function(input_gw, input_type = "overall") {
       dplyr::all_of(rating_columns)
     ) |>
     tidyr::pivot_longer(
-      cols = rating_columns,
+      cols = dplyr::all_of(rating_columns),
       names_to = "gw",
       values_to = "rating"
     )
@@ -135,7 +160,7 @@ get_fdr_for_selected_gameweek <- function(input_gw, input_type = "overall") {
     dplyr::group_by(.data$team) |>
     dplyr::filter(.data$rating > 0) |>
     dplyr::summarise(
-      average_fdr = sum(.data$rating, na.rm = TRUE) / length(.data$rating)
+      average_fdr = sum(as.numeric(.data$rating), na.rm = TRUE) / length(as.numeric(.data$rating))
     )
 
   avgs$average_fdr <- as.integer(avgs$average_fdr)
@@ -149,4 +174,7 @@ get_fdr_for_selected_gameweek <- function(input_gw, input_type = "overall") {
       dplyr::all_of(gw_columns),
       .data$average_fdr,
       dplyr::all_of(rating_columns))
+
+  table_df <- table_df |>
+    dplyr::mutate_at(dplyr::vars(rating_columns), as.numeric)
 }

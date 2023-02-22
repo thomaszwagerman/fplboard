@@ -84,7 +84,8 @@ plot_starting_eleven <- function(entrant_number, gameweeks) {
     # viridis::scale_color_viridis(discrete = TRUE) +
     ggplot2::geom_point() +
     ggimage::geom_image(
-      ggplot2::aes(image = .data$photo)
+      ggplot2::aes(image = .data$photo),
+      size = 0.1
     ) +
     ggplot2::geom_hline(
       ggplot2::aes(yintercept = 4.5, colour = "red")
