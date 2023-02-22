@@ -81,8 +81,29 @@ get_fdr_by_gameweek <- function() {
     table_by_gameweek <- tidyr::pivot_wider(
       overall,
       names_from = "GW",
-      values_from = c("fixture", "rating")
+      values_from = c("fixture", "rating"),
+      values_fn = function(x) paste(x, collapse=", ")
     )
+
+    # Taking an average rating for double Gws
+    list_averaged <- lapply(unique(fdr$GW), function(n) {
+      varname <- paste0("rating_", n)
+      averaged <- table_by_gameweek |>
+        tidyr::separate(col = varname, sep = ",", into = c("min", "max")) |>
+        dplyr::mutate(
+          max = as.numeric(ifelse(is.na(max), min, max)),
+          min = as.numeric(min),
+          "rating_{n}" := round((min + max)/2)
+        )
+      return(averaged[[varname]])
+    })
+
+    ratings_averaged <- dplyr::bind_cols(test)
+    colnames(ratings_averaged) <- paste0("rating_", unique(fdr$GW))
+
+    table_by_gameweek[names(ratings_averaged)] <- ratings_averaged
+
+    return(table_by_gameweek)
   })
 
   names(tables_by_gameweek) <- difficulty_options
@@ -126,7 +147,7 @@ get_fdr_for_selected_gameweek <- function(input_gw, input_type = "overall") {
       dplyr::all_of(rating_columns)
     ) |>
     tidyr::pivot_longer(
-      cols = rating_columns,
+      cols = all_of(rating_columns),
       names_to = "gw",
       values_to = "rating"
     )
