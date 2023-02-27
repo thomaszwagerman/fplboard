@@ -13,7 +13,7 @@ coverage](https://codecov.io/gh/thomaszwagerman/fplboard/branch/main/graph/badge
 <!-- badges: end -->
 
 The goal of fplboard is to create a dashboard to easily extract useful
-information from the FPL API.
+information from the Fantasy Premier League (FPL) API.
 
 This dashboard is built on top of
 [fplscrapR](https://github.com/wiscostret/fplscrapR), but also has its
@@ -22,6 +22,8 @@ own native functions.
 fplboard is built in a modular way using the golem framework. Each
 module has its own functionality and is an individual menu item, meaning
 features will be added to this package slowly over time.
+
+The dashboard's theme is imitating the [FPL's website](https://fantasy.premierleague.com/). The goal of fplboard is just to have a bit of fun with your team's or mini-league data. From a developer's perspective, I'm experimenting with ways of presenting data in R/Shiny (I think there's ggplot, kable, gt and reactable so far), as well as some trying some Shiny development techniques (implementing reactive themeing, custom loading screens).
 
 ## Installation
 
