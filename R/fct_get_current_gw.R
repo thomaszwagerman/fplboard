@@ -40,7 +40,13 @@ get_current_gw_info <- function() {
 get_current_gw_number <- function() {
   current_gw_number <- get_current_gw_info() |>
     dplyr::select(.data$id)
-  return(current_gw_number$id)
+
+  if(nrow(current_gw_number) > 0) {
+    return(current_gw_number$id)
+  } else{
+    # Important line for pre-season, because we can't have GW 0
+    return(1)
+  }
 }
 
 #' Getting next gameweek information

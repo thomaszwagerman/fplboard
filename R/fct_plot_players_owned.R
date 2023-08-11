@@ -17,7 +17,7 @@ plot_players_owned <- function(entrant_number, gameweeks) {
 
   player_plot <- ggplot2::ggplot(entrant_picks, ggplot2::aes(
     x = .data$gameweek,
-    y = stats::reorder(link_to_img(.data$photo), .data$n_gameweeks_owned)
+    y = stats::reorder(link_to_img(.data$photo, 35), .data$n_gameweeks_owned)
   )) +
     viridis::scale_color_viridis(discrete = TRUE) +
     ggplot2::geom_tile() +
@@ -77,30 +77,26 @@ plot_players_owned <- function(entrant_number, gameweeks) {
 plot_starting_eleven <- function(entrant_number, gameweeks) {
   entrant_picks <- get_players_owned(entrant_number, gameweeks)
 
+  entrant_picks <- entrant_picks |>
+    dplyr::mutate(photo_cropped = cropcircles::circle_crop(.data$photo, just = "top")) # where the magic happens
+
   starting_eleven_plot <- ggplot2::ggplot(entrant_picks, ggplot2::aes(
-    x = .data$gameweek,
-    y = stats::reorder(.data$position, -.data$position)
+    x = .data$position,
+    y = .data$gameweek
   )) +
-    # viridis::scale_color_viridis(discrete = TRUE) +
     ggplot2::geom_point() +
     ggimage::geom_image(
-      ggplot2::aes(image = .data$photo),
-      size = 0.1
+      ggplot2::aes(image = .data$photo_cropped)
     ) +
-    ggplot2::geom_hline(
-      ggplot2::aes(yintercept = 4.5, colour = "red")
+    ggplot2::geom_vline(
+      ggplot2::aes(xintercept = 11.5, colour = "red")
     )+
-    ggplot2::scale_x_continuous(
-      position = "top",
-      breaks = entrant_picks$gameweek |>
-        unique() |>
-        sort()
-    ) +
     pl_style() +
     ggplot2::theme(
       legend.position = "none",
+      panel.grid.major.x = ggplot2::element_blank(),
       panel.grid.major.y = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank()
+      axis.text.x = ggplot2::element_blank()
     ) +
     ggplot2::labs(
       x = NULL,
