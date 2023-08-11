@@ -34,11 +34,11 @@ mod_players_owned_ui <- function(id){
     tags$hr(),
 
     waiter::withWaiter(
-      plotOutput(ns("plot_players_owned")),
+      plotOutput(ns("plot_players_owned"), height = "1500px"),
       html = loading_screen
     ),
     waiter::withWaiter(
-      plotOutput(ns("plot_starting_eleven")),
+      plotOutput(ns("plot_starting_eleven"), height = "3000px"),
       html = loading_screen
     )
 
