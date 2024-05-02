@@ -18,10 +18,10 @@ get_ep_not_owned <- function(entrant_number, gameweek) {
 
   # Obtaining all the player information to get their expected points
   df <- fplscrapR::get_player_info() |>
-    dplyr::select(.data$team_code, .data$photo,
-                  .data$playername, .data$ep_next,
-                  .data$value_form, .data$selected_by_percent,
-                  .data$transfers_in)
+    dplyr::select("team"_code, "photo",
+                  "playername", "ep_next",
+                  "value_form", "selected_by_percent",
+                  "transfers_in")
 
   df$ep_next <- as.numeric(df$ep_next)
 
@@ -35,7 +35,7 @@ get_ep_not_owned <- function(entrant_number, gameweek) {
   df$photo <- gsub("jpg", "png", df$photo)
 
   not_owned <- df |>
-    dplyr::filter(!.data$playername %in% entrant_picks$playername)
+    dplyr::filter(!"playername" %in% entrant_picks$playername)
 
   not_owned <- not_owned[order(
     -not_owned$ep_next

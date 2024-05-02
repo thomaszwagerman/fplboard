@@ -16,11 +16,11 @@ plot_league_standings <- function(league_number) {
   league_name <- get_league_name(league_number)
 
   overall_rank <- everyones_points |>
-    dplyr::select(.data$event, .data$overall_rank, .data$entry_name)
+    dplyr::select("event", "overall_rank", "entry"_name)
 
   league_rank <- lapply(overall_rank$event, function(gw) {
     df <- overall_rank |>
-      dplyr::filter(.data$event == gw)
+      dplyr::filter("event" == gw)
     df <- df[order(df$overall_rank), ]
     df$gw_league_rank <- seq(1, nrow(df))
     return(df)
@@ -29,13 +29,13 @@ plot_league_standings <- function(league_number) {
   league_rank <- dplyr::bind_rows(league_rank)
   league_rank$description <- paste0("GW ", league_rank$event)
 
-  ggplot2::ggplot(league_rank, ggplot2::aes(x = .data$event,
-                                            y = .data$gw_league_rank,
-                                            color = .data$entry_name)) +
+  ggplot2::ggplot(league_rank, ggplot2::aes(x = "event",
+                                            y = "GW"_league_rank,
+                                            color = "entry"_name)) +
     ggplot2::geom_line(size = 2) +
     ggplot2::geom_point(
       data = league_rank |>
-        dplyr::filter(.data$event %in% c(min(.data$event), max(.data$event))),
+        dplyr::filter("event" %in% c(min("event"), max("event"))),
       size = 5
     ) +
     viridis::scale_color_viridis(discrete = TRUE) +
@@ -44,15 +44,15 @@ plot_league_standings <- function(league_number) {
         unique() |>
         sort(),
       labels = league_rank |>
-        dplyr::distinct(.data$event, .data$description) |>
-        dplyr::arrange(.data$event) |>
-        dplyr::pull(.data$description),
+        dplyr::distinct("event", "description") |>
+        dplyr::arrange("event") |>
+        dplyr::pull("description"),
       expand = ggplot2::expansion(mult = .4)
     ) +
     ggplot2::geom_text(
       data = league_rank |>
-        dplyr::filter(.data$event == max(.data$event)),
-      ggplot2::aes(x = .data$event + 0.1, label = .data$entry_name),
+        dplyr::filter("event" == max("event")),
+      ggplot2::aes(x = "event" + 0.1, label = "entry"_name),
       size = 5, hjust = 0
     ) +
     ggplot2::scale_y_reverse() +
@@ -69,7 +69,7 @@ plot_league_standings <- function(league_number) {
     ) +
     ggplot2::geom_point(
       data = tibble::tibble(x = 0.55, y = 1:max(league_rank$gw_league_rank)),
-      ggplot2::aes(x = .data$x, y = .data$y),
+      ggplot2::aes(x = "x", y = "y"),
       inherit.aes = FALSE,
       color = "black",
       size = 10,
@@ -77,7 +77,7 @@ plot_league_standings <- function(league_number) {
     ) +
     ggplot2::geom_text(
       data = tibble::tibble(x = .55, y = 1:max(league_rank$gw_league_rank)),
-      ggplot2::aes(x = .data$x, y = .data$y, label = .data$y),
+      ggplot2::aes(x = "x", y = "y", label = "y"),
       inherit.aes = FALSE,
       color = "black"
     )
@@ -101,18 +101,18 @@ plot_league_points <- function(league_number) {
   league_name <- get_league_name(league_number)
 
   plotted_data <- everyones_points |>
-    dplyr::select(.data$event, .data$total_points, .data$entry_name)
+    dplyr::select("event", "total_points", "entry"_name)
 
   plotted_data$description <- paste0("GW ", plotted_data$event)
 
   plotted_data |>
-    ggplot2::ggplot(ggplot2::aes(.data$event, .data$total_points)) +
-    ggplot2::geom_line(ggplot2::aes(color = .data$entry_name), size = 2.4) +
-    ggplot2::geom_point(ggplot2::aes(color = .data$entry_name), alpha = 0.8, size = 5) +
+    ggplot2::ggplot(ggplot2::aes("event", "total_points")) +
+    ggplot2::geom_line(ggplot2::aes(color = "entry"_name), size = 2.4) +
+    ggplot2::geom_point(ggplot2::aes(color = "entry"_name), alpha = 0.8, size = 5) +
     ggrepel::geom_text_repel(
       data = plotted_data |>
-        dplyr::filter(.data$event == max(.data$event)),
-      ggplot2::aes(x = .data$event + 0.1, label = .data$entry_name),
+        dplyr::filter("event" == max("event")),
+      ggplot2::aes(x = "event" + 0.1, label = "entry"_name),
       size = 5, hjust = "left", nudge_x = 0.5, direction = "y"
     ) +
     ggplot2::scale_x_continuous(
@@ -120,9 +120,9 @@ plot_league_points <- function(league_number) {
         unique() |>
         sort(),
       labels = plotted_data |>
-        dplyr::distinct(.data$event, .data$description) |>
-        dplyr::arrange(.data$event) |>
-        dplyr::pull(.data$description),
+        dplyr::distinct("event", "description") |>
+        dplyr::arrange("event") |>
+        dplyr::pull("description"),
       expand = ggplot2::expansion(mult = .4)
     ) +
     viridis::scale_color_viridis(discrete = TRUE) +

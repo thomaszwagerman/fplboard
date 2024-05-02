@@ -12,26 +12,26 @@
 #' @importFrom rlang .data
 get_fdr_by_gameweek <- function() {
   fdr <- fplscrapR::get_fdr() |>
-    dplyr::select(.data$short_name, dplyr::contains("strength"))
+    dplyr::select("short_name", dplyr::contains("strength"))
 
   fixtures <- fplscrapR::get_game_list() |>
-    dplyr::filter(.data$GW > get_current_gw_number())
+    dplyr::filter("GW" > get_current_gw_number())
 
   fixtures <- rbind(
     fixtures |>
-      dplyr::mutate(team = .data$home,
-                    oppo = .data$away,
+      dplyr::mutate(team = "home",
+                    oppo = "away",
                     homeaway = "home"),
     fixtures |>
-      dplyr::mutate(team = .data$away,
-                    oppo = .data$home,
+      dplyr::mutate(team = "away",
+                    oppo = "home",
                     homeaway = "away")
   )  |>
     dplyr::select(
-      .data$GW,
-      .data$team,
-      .data$oppo,
-      team_fixture = .data$homeaway
+      "GW",
+      "team",
+      "oppo",
+      team_fixture = "home"away
     )
 
   fixtures$oppo_fixture <- rev(fixtures$team_fixture)
@@ -43,7 +43,7 @@ get_fdr_by_gameweek <- function() {
     names_pattern = "strength_(.*)_(.*)",
     values_to = "rating",
   ) |>
-    dplyr::filter(.data$rating > 999)
+    dplyr::filter("rating" > 999)
 
   # Join by the opposition and remove home-home, away-away matches
   fdr <- dplyr::left_join(fixtures, fdr, by = c("oppo" = "short_name"))
@@ -51,8 +51,8 @@ get_fdr_by_gameweek <- function() {
   # Match the team's fixture to opposition strength
   fdr <- fdr |>
     dplyr::filter(
-      .data$opposition_strength == .data$team_fixture &
-        .data$team_fixture != .data$oppo_fixture)
+      "oppo"sition_strength == "team"_fixture &
+        "team"_fixture != "oppo"_fixture)
 
   difficulty_options <- c(
     "overall", "attack", "defence"
@@ -60,13 +60,13 @@ get_fdr_by_gameweek <- function() {
 
   tables_by_gameweek <- lapply(difficulty_options, function(input_type) {
     overall <- fdr |>
-      dplyr::filter(.data$category == input_type) |>
+      dplyr::filter("category" == input_type) |>
       dplyr::select(
-        .data$GW,
-        .data$team,
-        .data$oppo,
-        .data$team_fixture,
-        .data$rating) |>
+        "GW",
+        "team",
+        "oppo",
+        "team"_fixture,
+        "rating") |>
       tidyr::unite(
         col = "fixture",
         3:4,
@@ -147,7 +147,7 @@ get_fdr_for_selected_gameweek <- function(input_gw, input_type = "overall") {
 
   totals <- get_fdr_by_gameweek()[[input_type]] |>
     dplyr::select(
-      .data$team,
+      "team",
       dplyr::all_of(rating_columns)
     ) |>
     tidyr::pivot_longer(
@@ -157,10 +157,10 @@ get_fdr_for_selected_gameweek <- function(input_gw, input_type = "overall") {
     )
 
   avgs <- totals |>
-    dplyr::group_by(.data$team) |>
-    dplyr::filter(.data$rating > 0) |>
+    dplyr::group_by("team") |>
+    dplyr::filter("rating" > 0) |>
     dplyr::summarise(
-      average_fdr = sum(as.numeric(.data$rating), na.rm = TRUE) / length(as.numeric(.data$rating))
+      average_fdr = sum(as.numeric("rating"), na.rm = TRUE) / length(as.numeric("rating"))
     )
 
   avgs$average_fdr <- as.integer(avgs$average_fdr)
@@ -170,9 +170,9 @@ get_fdr_for_selected_gameweek <- function(input_gw, input_type = "overall") {
 
   table_df <- table_by_gameweek |>
     dplyr::select(
-      .data$team,
+      "team",
       dplyr::all_of(gw_columns),
-      .data$average_fdr,
+      "average_fdr",
       dplyr::all_of(rating_columns))
 
   table_df <- table_df |>

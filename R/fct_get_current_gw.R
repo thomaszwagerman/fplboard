@@ -22,7 +22,7 @@ get_current_gw_info <- function() {
   # Filterting for the gameweeks whose deadline has passed AND
   # gameweek that has not finished yet, givese us the current gameweek
   current_gw_info <- round_info |>
-    dplyr::filter(.data$is_current == TRUE)
+    dplyr::filter("is_current" == TRUE)
   return(current_gw_info)
 }
 
@@ -39,7 +39,7 @@ get_current_gw_info <- function() {
 #' @importFrom rlang .data
 get_current_gw_number <- function() {
   current_gw_number <- get_current_gw_info() |>
-    dplyr::select(.data$id)
+    dplyr::select("id")
 
   if(nrow(current_gw_number) > 0) {
     return(current_gw_number$id)
@@ -73,7 +73,7 @@ get_next_gw_info <- function() {
   # Filterting for the gameweeks whose deadline has passed AND
   # gameweek that has not finished yet, givese us the next gameweek
   next_gw_info <- round_info |>
-    dplyr::filter(.data$is_next == TRUE)
+    dplyr::filter("is_next" == TRUE)
   return(next_gw_info)
 }
 
@@ -90,6 +90,6 @@ get_next_gw_info <- function() {
 #' @importFrom rlang .data
 get_next_gw_number <- function() {
   next_gw_number <- get_next_gw_info() |>
-    dplyr::select(.data$id)
+    dplyr::select("id")
   return(next_gw_number$id)
 }

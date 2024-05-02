@@ -61,13 +61,13 @@ library(knitr)
 benchwarmers <- get_ep_for_entrant(entrant_number = 9680, gameweek = get_current_gw_number())
 
 benchwarmers <- benchwarmers |>
-  dplyr::select(.data$team_code, .data$photo,
-                "Player" = .data$playername,
-                "Expected Points" = .data$ep_next,
-                "Selected by (%)" = .data$selected_by_percent) |>
+  dplyr::select("team_code", "photo",
+                "Player" = "playername",
+                "Expected Points" = "ep_next",
+                "Selected by (%)" = "selected_by_percent") |>
   gt::gt() |>
-  gtExtras::gt_img_rows(.data$photo, img_source = "web") |>
-  gtExtras::gt_img_rows(.data$team_code, img_source = "web") |>
+  gtExtras::gt_img_rows("photo", img_source = "web") |>
+  gtExtras::gt_img_rows("team_code", img_source = "web") |>
   gt::cols_label(
     team_code = "",
     photo = ""

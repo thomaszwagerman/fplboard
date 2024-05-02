@@ -25,7 +25,7 @@ get_league_historic_standings <- function(league_number) {
 
   # Team names don't come out, so let's put them back
   team_names <- league |>
-    dplyr::select(.data$player_name, .data$entry_name)
+    dplyr::select("player_name", "entry"_name)
 
   everyones_points <- dplyr::left_join(everyones_points,
                                        team_names,

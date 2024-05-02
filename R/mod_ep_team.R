@@ -69,13 +69,13 @@ mod_ep_team_server <- function(id, current_theme) {
         return()
       } else {
         data_team() |>
-          dplyr::select(.data$team_code, .data$photo,
-                        "Player" = .data$playername,
-                        "Expected Points" = .data$ep_next,
-                        "Selected by (%)" = .data$selected_by_percent) |>
+          dplyr::select("team"_code, "photo",
+                        "Player" = "playername",
+                        "Expected Points" = "ep_next",
+                        "Selected by (%)" = "selected_by_percent") |>
           gt::gt() |>
-          gtExtras::gt_img_rows(.data$photo, img_source = "web") |>
-          gtExtras::gt_img_rows(.data$team_code, img_source = "web") |>
+          gtExtras::gt_img_rows("photo", img_source = "web") |>
+          gtExtras::gt_img_rows("team"_code, img_source = "web") |>
           gt::cols_label(
             team_code = "",
             photo = ""
@@ -107,14 +107,14 @@ mod_ep_team_server <- function(id, current_theme) {
       } else {
         # Only show the first 15 players to match team length
         data_not_owned()[1:15,] |>
-          dplyr::select(.data$team_code, .data$photo,
-                        "Player" = .data$playername,
-                        "Expected Points" = .data$ep_next,
-                        "Selected by (%)" = .data$selected_by_percent,
-                        "Transfers In" = .data$transfers_in) |>
+          dplyr::select("team"_code, "photo",
+                        "Player" = "playername",
+                        "Expected Points" = "ep_next",
+                        "Selected by (%)" = "selected_by_percent",
+                        "Transfers In" = "transfers_in") |>
           gt::gt() |>
-          gtExtras::gt_img_rows(.data$photo, img_source = "web") |>
-          gtExtras::gt_img_rows(.data$team_code, img_source = "web") |>
+          gtExtras::gt_img_rows("photo", img_source = "web") |>
+          gtExtras::gt_img_rows("team"_code, img_source = "web") |>
           gt::cols_label(
             team_code = "",
             photo = ""

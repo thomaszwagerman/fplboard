@@ -28,18 +28,18 @@ get_players_owned <- function(entrant_number, gameweeks) {
   # Obtaining all the player to link to ownership over all gameweeks
   df <- fplscrapR::get_player_info() |>
     dplyr::select(
-      .data$id, .data$team_code,
-      .data$photo, .data$playername
+      "id", "team"_code,
+      "photo", "playername"
     ) |>
-    dplyr::mutate("element" = .data$id)
+    dplyr::mutate("element" = "id")
 
   # Join player information to the entrant picks
   entrant_picks <- dplyr::left_join(entrant_picks, df, by = "element") |>
     dplyr::select(
-      .data$position, .data$is_captain,
-      .data$is_vice_captain, .data$position,
-      .data$team_code, .data$photo,
-      .data$playername, .data$gameweek
+      "position", "is_captain",
+      "is_vice_captain", "position",
+      "team"_code, "photo",
+      "playername", "gameweek"
     )
 
   # Adding urls for team logo and player image
@@ -54,7 +54,7 @@ get_players_owned <- function(entrant_number, gameweeks) {
   entrant_picks$photo <- gsub("jpg", "png", entrant_picks$photo)
 
   owned_count <- entrant_picks |>
-    dplyr::group_by(.data$playername) |>
+    dplyr::group_by("playername") |>
     dplyr::count()
 
   colnames(owned_count) <- c("playername", "n_gameweeks_owned")

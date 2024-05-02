@@ -51,8 +51,8 @@ mod_ep_table_server <- function(id, current_theme) {
       } else {
         data() |>
           dplyr::select(
-            "Team" = .data$entry_name,
-            "Expected Points" = .data$expected_points_gw
+            "Team" = "entry"_name,
+            "Expected Points" = "expected_points_gw"
           ) |>
           gt::gt() |>
           gt::tab_header(

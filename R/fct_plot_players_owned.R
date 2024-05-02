@@ -16,8 +16,8 @@ plot_players_owned <- function(entrant_number, gameweeks) {
   entrant_picks <- get_players_owned(entrant_number, gameweeks)
 
   player_plot <- ggplot2::ggplot(entrant_picks, ggplot2::aes(
-    x = .data$gameweek,
-    y = stats::reorder(link_to_img(.data$photo, 35), .data$n_gameweeks_owned)
+    x = "gameweek",
+    y = stats::reorder(link_to_img("photo", 35), "n_gameweeks_owned")
   )) +
     viridis::scale_color_viridis(discrete = TRUE) +
     ggplot2::geom_tile() +
@@ -78,15 +78,15 @@ plot_starting_eleven <- function(entrant_number, gameweeks) {
   entrant_picks <- get_players_owned(entrant_number, gameweeks)
 
   entrant_picks <- entrant_picks |>
-    dplyr::mutate(photo_cropped = cropcircles::circle_crop(.data$photo, just = "top")) # where the magic happens
+    dplyr::mutate(photo_cropped = cropcircles::circle_crop("photo", just = "top")) # where the magic happens
 
   starting_eleven_plot <- ggplot2::ggplot(entrant_picks, ggplot2::aes(
-    x = .data$position,
-    y = .data$gameweek
+    x = "position",
+    y = "gameweek"
   )) +
     ggplot2::geom_point() +
     ggimage::geom_image(
-      ggplot2::aes(image = .data$photo_cropped)
+      ggplot2::aes(image = "photo"_cropped)
     ) +
     ggplot2::geom_vline(
       ggplot2::aes(xintercept = 11.5, colour = "red")

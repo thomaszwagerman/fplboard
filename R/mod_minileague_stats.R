@@ -69,16 +69,16 @@ mod_minileague_stats_server <- function(id, current_theme){
       } else {
         general_information() |>
           dplyr::select(
-            "Team" = .data$entry_name,
-            "GW Points" = .data$points,
-            "Total Points" = .data$total_points,
-            "Overall Rank" = .data$overall_rank,
-            .data$rank_change
+            "Team" = "entry"_name,
+            "GW Points" = "points",
+            "Total Points" = "total_points",
+            "Overall Rank" = "overall_rank",
+            "rank_change"
           ) |>
           gt::gt() |>
           # This is to get a green/red arrow on rank change
           gt::text_transform(
-            locations = gt::cells_body(columns = c(.data$rank_change)),
+            locations = gt::cells_body(columns = c("rank_change")),
             fn = function(x){
 
               rank_change <- as.integer(x)
@@ -124,8 +124,8 @@ mod_minileague_stats_server <- function(id, current_theme){
       } else {
         bench_points() |>
           dplyr::select(
-            "Team" = .data$entry_name,
-            "Points on bench" = .data$bench
+            "Team" = "entry"_name,
+            "Points on bench" = "bench"
           ) |>
           gt::gt() |>
           gt::tab_header(
@@ -150,8 +150,8 @@ mod_minileague_stats_server <- function(id, current_theme){
       } else {
         team_value() |>
           dplyr::select(
-            "Team" = .data$entry_name,
-            "Team Value" = .data$value
+            "Team" = "entry"_name,
+            "Team Value" = "value"
           ) |>
           gt::gt() |>
           gt::tab_header(
@@ -176,8 +176,8 @@ mod_minileague_stats_server <- function(id, current_theme){
       } else {
         team_hits() |>
           dplyr::select(
-            "Team" = .data$entry_name,
-            "Points deducted for transfers" = .data$transfer_cost
+            "Team" = "entry"_name,
+            "Points deducted for transfers" = "transfer_cost"
           ) |>
           gt::gt() |>
           gt::tab_header(

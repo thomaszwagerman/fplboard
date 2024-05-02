@@ -32,15 +32,15 @@ get_ep_for_league <- function(league_number, gameweek) {
 
   # Combining the entrant information with their picks
   league_entries <- league |>
-    dplyr::select(.data$entry, .data$player_name, .data$entry_name)
+    dplyr::select("entry", "player_name", "entry"_name)
 
   league_picks <- dplyr::left_join(league_entries, everyones_picks)
 
   # Obtaining all the player information to get their expected points
   df <- fplscrapR::get_player_info() |>
-    dplyr::select(.data$id, .data$playername, .data$ep_next,
-                  .data$value_form, .data$selected_by_percent) |>
-    dplyr::mutate("element" = .data$id)
+    dplyr::select("id", "playername", "ep_next",
+                  "value_form", "selected_by_percent") |>
+    dplyr::mutate("element" = "id")
 
   df$ep_next <- as.numeric(df$ep_next)
 
@@ -49,8 +49,8 @@ get_ep_for_league <- function(league_number, gameweek) {
   league_picks <- dplyr::left_join(league_picks, df)
 
   league_predicted <- league_picks |>
-    dplyr::group_by(.data$entry_name) |>
-    dplyr::summarise(expected_points_gw = sum(.data$ep_next))
+    dplyr::group_by("entry"_name) |>
+    dplyr::summarise(expected_points_gw = sum("ep_next"))
 
   league_predicted <- league_predicted[order(
     -league_predicted$expected_points_gw
