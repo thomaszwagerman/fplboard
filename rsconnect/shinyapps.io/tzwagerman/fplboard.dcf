@@ -5,9 +5,7 @@ account: tzwagerman
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7036779
-bundleId: 7556312
+bundleId: 8994750
 url: https://tzwagerman.shinyapps.io/fplboard/
-when: 1691751129.05279
-lastSyncTime: 1691751129.05281
 asMultiple: FALSE
 asStatic: FALSE

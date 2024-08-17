@@ -22,7 +22,7 @@ mod_fdr_ui <- function(id, current_theme) {
     ),
     sliderInput(ns("gw"),
       "Select gameweek range: ",
-      min = get_current_gw_number(), max = 36,
+      min = get_current_gw_number(), max = 38,
       value = c(
         get_current_gw_number() + 1,
         get_current_gw_number() + 5

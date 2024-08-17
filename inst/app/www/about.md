@@ -20,12 +20,10 @@ website would not be possible. Do go and check that out!
 ## Author
 
 Hi there! My name is Thomas Zwagerman and I’m the author and maintainer
-of this R package. I am a data scientist and R developer.
+of this R package. I am a Research Software Engineer.
 
 Although this is an FPL website I don’t work in football/sport. My
-background is environmental science, and I currently work in local
-government.
+background is environmental science, and I currently work for the
+British Antarctic Survey.
 
-You can find me on [Twitter](https://twitter.com/thomzwa), and I also
-have a [blog](https://tzwagerman.netlify.app/) with R posts in all sorts
-of other topics.
+You can find me on [Twitter](https://twitter.com/thomzwa).
